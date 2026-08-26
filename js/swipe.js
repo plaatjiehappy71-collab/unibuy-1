@@ -1,1499 +1,1344 @@
-import { db } from "./firebase.js";
-
-import {
-    doc,
-    updateDoc,
-    increment
-} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
-
 window.UniBuySwipe = (function () {
 
-    const viewer = document.getElementById("swipeViewer");
-    const track = document.getElementById("swipeTrack");
-    const closeBtn = document.getElementById("swipeClose");
+const viewer = document.getElementById("swipeViewer");  
+const track = document.getElementById("swipeTrack");  
+const closeBtn = document.getElementById("swipeClose");  
 
-    let originalProducts = [];
-    let feed = [];
-    let currentIndex = 0;
-    let photoIndex = {};
-    let likedIds = new Set();
-    let notInterestedCategories = new Set();
+let originalProducts = [];  
+let feed = [];  
+let currentIndex = 0;  
+let photoIndex = {};  
+let likedIds = new Set();  
+let notInterestedCategories = new Set();  
 
-    const RENDER_RADIUS = 1;
+const RENDER_RADIUS = 1;  
 
-    /* =========================================================
-       HELPERS
-       ========================================================= */
+/* =========================================================  
+   HELPERS  
+   ========================================================= */  
 
-    function formatPrice(amount) {
-        const number = Number(amount);
+function formatPrice(amount) {  
+    const number = Number(amount);  
 
-        if (isNaN(number)) {
-            return "R 0";
-        }
+    if (isNaN(number)) {  
+        return "R 0";  
+    }  
 
-        return "R " + number.toLocaleString("en-ZA");
-    }
+    return "R " + number.toLocaleString("en-ZA");  
+}  
 
 
-    /* =========================================================
-       OPEN VIEWER
-       ========================================================= */
+/* =========================================================  
+   OPEN VIEWER  
+   ========================================================= */  
 
-    function open(index, products) {
+function open(index, products) {  
 
-        if (!viewer || !track) {
-            console.error("UniBuy Swipe viewer not found.");
-            return;
-        }
+    if (!viewer || !track) {  
+        console.error("UniBuy Swipe viewer not found.");  
+        return;  
+    }  
 
-        if (!Array.isArray(products) || !products.length) {
-            console.warn("No products available for swipe viewer.");
-            return;
-        }
+    if (!Array.isArray(products) || !products.length) {  
+        console.warn("No products available for swipe viewer.");  
+        return;  
+    }  
 
-        originalProducts = products.slice();
-        feed = products.slice();
+    originalProducts = products.slice();  
+    feed = products.slice();  
 
-        currentIndex = Math.max(
-            0,
-            Math.min(index, feed.length - 1)
-        );
+    currentIndex = Math.max(  
+        0,  
+        Math.min(index, feed.length - 1)  
+    );  
 
-        photoIndex = {};
-        likedIds = new Set();
-        notInterestedCategories = new Set();
+    photoIndex = {};  
+    likedIds = new Set();  
+    notInterestedCategories = new Set();  
 
-        viewer.classList.remove("hidden");
+    viewer.classList.remove("hidden");  
 
-        viewer.setAttribute(
-            "aria-hidden",
-            "false"
-        );
+    viewer.setAttribute(  
+        "aria-hidden",  
+        "false"  
+    );  
 
-        document.body.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";  
 
-        renderSlides();
-        preloadAround(currentIndex);
+    renderSlides();  
+    preloadAround(currentIndex);  
 
-        attachGestures();
-    }
+    attachGestures();  
+}  
 
 
-    /* =========================================================
-       CLOSE VIEWER
-       ========================================================= */
+/* =========================================================  
+   CLOSE VIEWER  
+   ========================================================= */  
 
-    function close() {
+function close() {  
 
-        if (!viewer || !track) return;
+    if (!viewer || !track) return;  
 
-        viewer.classList.add("hidden");
+    viewer.classList.add("hidden");  
 
-        viewer.setAttribute(
-            "aria-hidden",
-            "true"
-        );
+    viewer.setAttribute(  
+        "aria-hidden",  
+        "true"  
+    );  
 
-        document.body.style.overflow = "";
+    document.body.style.overflow = "";  
 
-        track.innerHTML = "";
+    track.innerHTML = "";  
 
-        detachGestures();
-    }
+    detachGestures();  
+}  
 
 
-    /* =========================================================
-       EXTEND FEED
-       ========================================================= */
+/* =========================================================  
+   EXTEND FEED  
+   ========================================================= */  
 
-    function extendFeedIfNeeded() {
+function extendFeedIfNeeded() {  
 
-        if (!originalProducts.length) {
-            return;
-        }
+    if (!originalProducts.length) {  
+        return;  
+    }  
 
-        while (
-            feed.length <
-            currentIndex +
-            RENDER_RADIUS +
-            3
-        ) {
+    while (  
+        feed.length <  
+        currentIndex +  
+        RENDER_RADIUS +  
+        3  
+    ) {  
 
-            const pool =
-                originalProducts.filter(function (product) {
+        const pool =  
+            originalProducts.filter(function (product) {  
 
-                    return !notInterestedCategories.has(
-                        product.category
-                    );
-
-                });
+                return !notInterestedCategories.has(  
+                    product.category  
+                );  
+
+            });  
 
-            const source =
-                pool.length
-                    ? pool
-                    : originalProducts;
+        const source =  
+            pool.length  
+                ? pool  
+                : originalProducts;  
 
-            if (!source.length) {
-                break;
-            }
+        if (!source.length) {  
+            break;  
+        }  
 
-            feed.push(
-                source[
-                    feed.length % source.length
-                ]
-            );
-        }
-    }
+        feed.push(  
+            source[  
+                feed.length % source.length  
+            ]  
+        );  
+    }  
+}  
 
 
-    /* =========================================================
-       PRELOAD IMAGES
-       ========================================================= */
+/* =========================================================  
+   PRELOAD IMAGES  
+   ========================================================= */  
 
-    function preloadAround(index) {
+function preloadAround(index) {  
 
-        for (
-            let i = index - 1;
-            i <= index + 2;
-            i++
-        ) {
+    for (  
+        let i = index - 1;  
+        i <= index + 2;  
+        i++  
+    ) {  
 
-            if (
-                i < 0 ||
-                i >= feed.length
-            ) {
-                continue;
-            }
+        if (  
+            i < 0 ||  
+            i >= feed.length  
+        ) {  
+            continue;  
+        }  
 
-            const product = feed[i];
+        const product = feed[i];  
 
-            if (!product) {
-                continue;
-            }
+        if (!product) {  
+            continue;  
+        }  
 
-            const images =
-                (
-                    product.images &&
-                    Array.isArray(product.images) &&
-                    product.images.length
-                )
-                    ? product.images
-                    : [product.image];
+        const images =  
+            (  
+                product.images &&  
+                Array.isArray(product.images) &&  
+                product.images.length  
+            )  
+                ? product.images  
+                : [product.image];  
 
-            images.forEach(function (src) {
+        images.forEach(function (src) {  
 
-                if (!src) return;
+            if (!src) return;  
 
-                const img = new Image();
+            const img = new Image();  
 
-                img.src = src;
+            img.src = src;  
 
-            });
-        }
-    }
+        });  
+    }  
+}  
 
 
-    /* =========================================================
-       ACTION BUTTON
-       ========================================================= */
+/* =========================================================  
+   ACTION BUTTON  
+   ========================================================= */  
 
-    function actionButton(
-        action,
-        icon,
-        label,
-        activeClass
-    ) {
+function actionButton(  
+    action,  
+    icon,  
+    label,  
+    activeClass  
+) {  
 
-        return (
+    return (  
 
-            '<button class="swipe-action-btn ' +
-            (activeClass || "") +
-            '" data-action="' +
-            action +
-            '" aria-label="' +
-            label +
-            '">' +
+        '<button class="swipe-action-btn ' +  
+        (activeClass || "") +  
+        '" data-action="' +  
+        action +  
+        '" aria-label="' +  
+        label +  
+        '">' +  
 
-                '<i class="fas ' +
-                icon +
-                '"></i>' +
+            '<i class="fas ' +  
+            icon +  
+            '"></i>' +  
 
-            "</button>" +
+        "</button>" +  
 
-            '<div class="swipe-action-col">' +
-            label +
-            "</div>"
-        );
-    }
+        '<div class="swipe-action-col">' +  
+        label +  
+        "</div>"  
+    );  
+}  
 
 
-    /* =========================================================
-       BUILD SLIDE
-       ========================================================= */
+/* =========================================================  
+   BUILD SLIDE  
+   ========================================================= */  
 
-    function buildSlide(product, pos) {
+function buildSlide(product, pos) {  
 
-        const slide =
-            document.createElement("div");
+    const slide =  
+        document.createElement("div");  
 
-        slide.className =
-            "swipe-slide";
+    slide.className =  
+        "swipe-slide";  
 
-        slide.style.top =
-            (pos * 100) + "%";
+    slide.style.top =  
+        (pos * 100) + "%";  
 
-        slide.dataset.pos = pos;
+    slide.dataset.pos = pos;  
 
 
-        /* ---------- IMAGES ---------- */
+    /* ---------- IMAGES ---------- */  
 
-        const images =
-            (
-                product.images &&
-                Array.isArray(product.images) &&
-                product.images.length
-            )
-                ? product.images
-                : [product.image];
+    const images =  
+        (  
+            product.images &&  
+            Array.isArray(product.images) &&  
+            product.images.length  
+        )  
+            ? product.images  
+            : [product.image];  
 
-        photoIndex[pos] = 0;
+    photoIndex[pos] = 0;  
 
-        const photosWrap =
-            document.createElement("div");
+    const photosWrap =  
+        document.createElement("div");  
 
-        photosWrap.className =
-            "swipe-photos";
+    photosWrap.className =  
+        "swipe-photos";  
 
-        images.forEach(function (src) {
+    images.forEach(function (src) {  
 
-            const photo =
-                document.createElement("div");
+        const photo =  
+            document.createElement("div");  
 
-            photo.className =
-                "swipe-photo";
+        photo.className =  
+            "swipe-photo";  
 
-            const fallback =
-                "https://placehold.co/480x854/1a1a1a/ffffff?text=" +
-                encodeURIComponent(
-                    product.name || "UniBuy"
-                );
+        const fallback =  
+            "https://placehold.co/480x854/1a1a1a/ffffff?text=" +  
+            encodeURIComponent(  
+                product.name || "UniBuy"  
+            );  
 
-            photo.style.backgroundImage =
-                "url('" +
-                (src || fallback) +
-                "'), url('" +
-                fallback +
-                "')";
+        photo.style.backgroundImage =  
+            "url('" +  
+            (src || fallback) +  
+            "'), url('" +  
+            fallback +  
+            "')";  
 
-            photosWrap.appendChild(photo);
+        photosWrap.appendChild(photo);  
 
-        });
+    });  
 
-        slide.appendChild(
-            photosWrap
-        );
+    slide.appendChild(  
+        photosWrap  
+    );  
 
 
-        /* ---------- PHOTO DOTS ---------- */
+    /* ---------- PHOTO DOTS ---------- */  
 
-        if (images.length > 1) {
+    if (images.length > 1) {  
 
-            const dots =
-                document.createElement("div");
+        const dots =  
+            document.createElement("div");  
 
-            dots.className =
-                "swipe-dots";
+        dots.className =  
+            "swipe-dots";  
 
-            images.forEach(function (_, i) {
+        images.forEach(function (_, i) {  
 
-                const dot =
-                    document.createElement("span");
+            const dot =  
+                document.createElement("span");  
 
-                if (i === 0) {
+            if (i === 0) {  
 
-                    dot.classList.add(
-                        "active"
-                    );
+                dot.classList.add(  
+                    "active"  
+                );  
 
-                }
+            }  
 
-                dots.appendChild(dot);
+            dots.appendChild(dot);  
 
-            });
+        });  
 
-            slide.appendChild(
-                dots
-            );
-        }
+        slide.appendChild(  
+            dots  
+        );  
+    }  
 
 
-        /* ---------- PRODUCT INFORMATION ---------- */
+    /* ---------- PRODUCT INFORMATION ---------- */  
 
-        const info =
-            document.createElement("div");
+    const info =  
+        document.createElement("div");  
 
-        info.className =
-            "swipe-info";
+    info.className =  
+        "swipe-info";  
 
-        info.innerHTML =
+    info.innerHTML =  
 
-            (
-                product.premium
-                    ? '<span class="swipe-premium-badge">PREMIUM</span>'
-                    : ""
-            ) +
+        (  
+            product.premium  
+                ? '<span class="swipe-premium-badge">PREMIUM</span>'  
+                : ""  
+        ) +  
 
-            '<div class="swipe-name">' +
-                (product.name || "Product") +
-            "</div>" +
+        '<div class="swipe-name">' +  
+            (product.name || "Product") +  
+        "</div>" +  
 
-            '<div class="swipe-price">' +
-                formatPrice(product.price) +
-            "</div>" +
+        '<div class="swipe-price">' +  
+            formatPrice(product.price) +  
+        "</div>" +  
 
-            '<div class="swipe-meta">' +
+        '<div class="swipe-meta">' +  
 
-                '<span>' +
-                    '<i class="fas fa-store"></i> ' +
-                    (product.seller || "Seller") +
-                "</span>" +
+            '<span>' +  
+                '<i class="fas fa-store"></i> ' +  
+                (product.seller || "Seller") +  
+            "</span>" +  
 
-                '<span>' +
-                    '<i class="fas fa-location-dot"></i> ' +
-                    (product.location || "Location not provided") +
-                "</span>" +
+            '<span>' +  
+                '<i class="fas fa-location-dot"></i> ' +  
+                (product.location || "Location not provided") +  
+            "</span>" +  
 
-            "</div>" +
+        "</div>" +  
 
-            '<div class="swipe-description">' +
-                (product.description || "No description provided.") +
-            "</div>" +
+        '<div class="swipe-description">' +  
+            (product.description || "No description provided.") +  
+        "</div>" +  
 
-            '<div class="swipe-cta-row">' +
+        '<div class="swipe-cta-row">' +  
 
-                '<button class="swipe-chat-btn" data-action="chat">' +
+            '<button class="swipe-chat-btn" data-action="chat">' +  
 
-                    '<i class="fab fa-whatsapp"></i> ' +
+                '<i class="fab fa-whatsapp"></i> ' +  
 
-                    "Chat with Seller" +
+                "Chat with Seller" +  
 
-                "</button>" +
+            "</button>" +  
 
-            "</div>";
+        "</div>";  
 
-        slide.appendChild(
-            info
-        );
+    slide.appendChild(  
+        info  
+    );  
 
 
-        /* ---------- ACTIONS ---------- */
+    /* ---------- ACTIONS ---------- */  
 
-        const actions =
-            document.createElement("div");
+    const actions =  
+        document.createElement("div");  
 
-        actions.className =
-            "swipe-actions";
+    actions.className =  
+        "swipe-actions";  
 
-        actions.innerHTML =
+    actions.innerHTML =  
 
-            actionButton(
-                "like",
-                "fa-heart",
-                String(product.likes || 0),
-                likedIds.has(product.id)
-                    ? "liked"
-                    : ""
-            ) +
+        actionButton(  
+            "like",  
+            "fa-heart",  
+            String(product.likes || 0),  
+            likedIds.has(product.id)  
+                ? "liked"  
+                : ""  
+        ) +  
 
-            actionButton(
-                "save",
-                "fa-bookmark",
-                "Save",
-                (
-                    window.UniBuySaved &&
-                    window.UniBuySaved.isSaved &&
-                    window.UniBuySaved.isSaved(
-                        product.id
-                    )
-                )
-                    ? "saved"
-                    : ""
-            ) +
+        actionButton(  
+            "save",  
+            "fa-bookmark",  
+            "Save",  
+            (  
+                window.UniBuySaved &&  
+                window.UniBuySaved.isSaved &&  
+                window.UniBuySaved.isSaved(  
+                    product.id  
+                )  
+            )  
+                ? "saved"  
+                : ""  
+        ) +  
 
-            actionButton(
-                "share",
-                "fa-share",
-                "Share",
-                ""
-            ) +
+        actionButton(  
+            "share",  
+            "fa-share",  
+            "Share",  
+            ""  
+        ) +  
 
-            actionButton(
-                "not-interested",
-                "fa-ban",
-                "Not for me",
-                ""
-            );
+        actionButton(  
+            "not-interested",  
+            "fa-ban",  
+            "Not for me",  
+            ""  
+        );  
 
-        slide.appendChild(
-            actions
-        );
+    slide.appendChild(  
+        actions  
+    );  
 
 
-        /* ---------- TOAST ---------- */
+    /* ---------- TOAST ---------- */  
 
-        const toast =
-            document.createElement("div");
+    const toast =  
+        document.createElement("div");  
 
-        toast.className =
-            "swipe-toast";
+    toast.className =  
+        "swipe-toast";  
 
-        slide.appendChild(
-            toast
-        );
+    slide.appendChild(  
+        toast  
+    );  
 
 
-        /* ---------- ACTION EVENTS ---------- */
+    /* ---------- ACTION EVENTS ---------- */  
 
-        actions.addEventListener(
-            "click",
-            function (e) {
+    actions.addEventListener(  
+        "click",  
+        function (e) {  
 
-                const btn =
-                    e.target.closest(
-                        ".swipe-action-btn"
-                    );
+            const btn =  
+                e.target.closest(  
+                    ".swipe-action-btn"  
+                );  
 
-                if (!btn) return;
+            if (!btn) return;  
 
-                handleAction(
-                    btn.dataset.action,
-                    product,
-                    btn,
-                    toast
-                );
+            handleAction(  
+                btn.dataset.action,  
+                product,  
+                btn,  
+                toast  
+            );  
 
-            }
-        );
+        }  
+    );  
 
 
-        info.addEventListener(
-            "click",
-            function (e) {
+    info.addEventListener(  
+        "click",  
+        function (e) {  
 
-                const btn =
-                    e.target.closest(
-                        "button[data-action]"
-                    );
+            const btn =  
+                e.target.closest(  
+                    "button[data-action]"  
+                );  
 
-                if (!btn) return;
+            if (!btn) return;  
 
-                handleAction(
-                    btn.dataset.action,
-                    product,
-                    btn,
-                    toast
-                );
+            handleAction(  
+                btn.dataset.action,  
+                product,  
+                btn,  
+                toast  
+            );  
 
-            }
-        );
+        }  
+    );  
 
 
-        return slide;
-    }
+    return slide;  
+}  
 
 
-    /* =========================================================
-       TOAST
-       ========================================================= */
+/* =========================================================  
+   TOAST  
+   ========================================================= */  
 
-    function showToast(
-        toastEl,
-        message
-    ) {
+function showToast(  
+    toastEl,  
+    message  
+) {  
 
-        if (!toastEl) return;
+    if (!toastEl) return;  
 
-        toastEl.textContent =
-            message;
+    toastEl.textContent =  
+        message;  
 
-        toastEl.classList.add(
-            "show"
-        );
+    toastEl.classList.add(  
+        "show"  
+    );  
 
-        setTimeout(
-            function () {
+    setTimeout(  
+        function () {  
 
-                toastEl.classList.remove(
-                    "show"
-                );
+            toastEl.classList.remove(  
+                "show"  
+            );  
 
-            },
-            1400
-        );
-    }
+        },  
+        1400  
+    );  
+}  
 
 
-    /* =========================================================
-       HANDLE ACTION
-       ========================================================= */
+/* =========================================================  
+   HANDLE ACTION  
+   ========================================================= */  
 
-    async function handleAction(
-        action,
-        product,
-        btn,
-        toastEl
-    ) {
+function handleAction(  
+    action,  
+    product,  
+    btn,  
+    toastEl  
+) {  
 
 
-        /* =========================
-           LIKE
-        ========================= */
+    /* =========================  
+       LIKE  
+    ========================= */  
 
-        if (action === "like") {
+    if (action === "like") {  
 
-    const alreadyLiked =
-        likedIds.has(product.id);
+        if (  
+            likedIds.has(  
+                product.id  
+            )  
+        ) {  
 
-    const change =
-        alreadyLiked
-            ? -1
-            : 1;
+            likedIds.delete(  
+                product.id  
+            );  
 
-    /*
-     * Update local state immediately
-     */
-    if (alreadyLiked) {
+            btn.classList.remove(  
+                "liked"  
+            );  
 
-        likedIds.delete(
-            product.id
-        );
+        } else {  
 
-        btn.classList.remove(
-            "liked"
-        );
+            likedIds.add(  
+                product.id  
+            );  
 
-    } else {
+            btn.classList.add(  
+                "liked"  
+            );  
 
-        likedIds.add(
-            product.id
-        );
+        }  
 
-        btn.classList.add(
-            "liked"
-        );
-    }
+        return;  
+    }  
 
-    /*
-     * Update the displayed number immediately
-     */
-    const currentLikes =
-        Number(product.likes || 0);
 
-    const newLikes =
-        Math.max(
-            0,
-            currentLikes + change
-        );
+    /* =========================  
+       SAVE  
+    ========================= */  
 
-    product.likes =
-        newLikes;
+    if (action === "save") {  
 
-    /*
-     * Find the number/label inside
-     * the like button.
-     */
-    const icon =
-        btn.querySelector("i");
+        let nowSaved;  
 
-    if (icon) {
+        if (  
+            window.UniBuySaved &&  
+            typeof window.UniBuySaved.toggleSaved ===  
+                "function"  
+        ) {  
 
-        /*
-         * The label is the text node
-         * after the icon.
-         */
-        const textNode =
-            Array.from(
-                btn.childNodes
-            ).find(function(node) {
+            nowSaved =  
+                window.UniBuySaved.toggleSaved(  
+                    product.id  
+                );  
 
-                return (
-                    node.nodeType ===
-                    Node.TEXT_NODE
-                );
+        } else {  
 
-            });
+            nowSaved =  
+                !btn.classList.contains(  
+                    "saved"  
+                );  
 
-        if (textNode) {
+        }  
 
-            textNode.nodeValue =
-                " " +
-                newLikes;
+        btn.classList.toggle(  
+            "saved",  
+            nowSaved  
+        );  
 
-        } else {
+        showToast(  
+            toastEl,  
+            nowSaved  
+                ? "Saved"  
+                : "Removed from saved items"  
+        );  
 
-            btn.appendChild(
-                document.createTextNode(
-                    " " + newLikes
-                )
-            );
+        return;  
+    }  
 
-        }
-    }
 
-    /*
-     * Save to Firestore
-     */
-    try {
+    /* =========================  
+       SHARE  
+    ========================= */  
 
-        await updateDoc(
-            doc(
-                db,
-                "products",
-                product.id
-            ),
-            {
-                likes:
-                    increment(change)
-            }
-        );
+    if (action === "share") {  
 
-        console.log(
-            "Like updated:",
-            product.id,
-            change
-        );
+        const shareUrl =  
+            window.location.origin +  
+            window.location.pathname +  
+            "?product=" +  
+            encodeURIComponent(  
+                product.id  
+            );  
 
-    } catch (error) {
+        const shareData = {  
 
-        console.error(
-            "Failed to update like:",
-            error
-        );
+            title:  
+                product.name ||  
+                "UniBuy Product",  
 
-        /*
-         * Roll back local change
-         * if Firebase fails.
-         */
-        product.likes =
-            currentLikes;
+            text:  
+                (product.name || "Product") +  
+                " - " +  
+                formatPrice(  
+                    product.price  
+                ) +  
+                " on UniBuy",  
 
-        if (alreadyLiked) {
+            url:  
+                shareUrl  
 
-            likedIds.add(
-                product.id
-            );
+        };  
 
-            btn.classList.add(
-                "liked"
-            );
+        if (  
+            navigator.share  
+        ) {  
 
-        } else {
+            navigator.share(  
+                shareData  
+            ).catch(  
+                function () {}  
+            );  
 
-            likedIds.delete(
-                product.id
-            );
+        } else if (  
+            navigator.clipboard &&  
+            navigator.clipboard.writeText  
+        ) {  
 
-            btn.classList.remove(
-                "liked"
-            );
+            navigator.clipboard.writeText(  
+                shareUrl  
+            ).then(  
+                function () {  
 
-        }
+                    showToast(  
+                        toastEl,  
+                        "Link copied to clipboard"  
+                    );  
+                }  
+            ).catch(  
+                function () {  
 
-        const textNode =
-            Array.from(
-                btn.childNodes
-            ).find(function(node) {
+                    showToast(  
+                        toastEl,  
+                        "Share: " +  
+                        shareUrl  
+                    );  
+                }  
+            );  
 
-                return (
-                    node.nodeType ===
-                    Node.TEXT_NODE
-                );
+        } else {  
 
-            });
+            showToast(  
+                toastEl,  
+                "Share: " +  
+                shareUrl  
+            );  
 
-        if (textNode) {
+        }  
 
-            textNode.nodeValue =
-                " " + currentLikes;
+        return;  
+    }  
 
-        }
 
-        showToast(
-            toastEl,
-            "Couldn't update like"
-        );
-    }
+    /* =========================  
+       NOT INTERESTED  
+    ========================= */  
 
-    return;
-}
+    if (  
+        action ===  
+        "not-interested"  
+    ) {  
 
+        if (  
+            product.category  
+        ) {  
 
-        /* =========================
-           SAVE
-        ========================= */
+            notInterestedCategories.add(  
+                product.category  
+            );  
 
-        if (action === "save") {
+        }  
 
-            let nowSaved;
+        showToast(  
+            toastEl,  
+            "Got it — showing less like this"  
+        );  
 
-            if (
-                window.UniBuySaved &&
-                typeof window.UniBuySaved.toggleSaved ===
-                    "function"
-            ) {
+        setTimeout(  
+            goToNext,  
+            350  
+        );  
 
-                nowSaved =
-                    window.UniBuySaved.toggleSaved(
-                        product.id
-                    );
+        return;  
+    }  
 
-            } else {
 
-                nowSaved =
-                    !btn.classList.contains(
-                        "saved"
-                    );
+    /* =========================  
+       BUY  
+    ========================= */  
 
-            }
+    if (action === "buy") {  
 
-            btn.classList.toggle(
-                "saved",
-                nowSaved
-            );
+        showToast(  
+            toastEl,  
+            "Buy Now flow coming soon"  
+        );  
 
-            showToast(
-                toastEl,
-                nowSaved
-                    ? "Saved"
-                    : "Removed from saved items"
-            );
+        return;  
+    }  
 
-            return;
-        }
 
+    /* =========================  
+       CHAT WITH SELLER  
+       WHATSAPP  
+    ========================= */  
 
-        /* =========================
-           SHARE
-        ========================= */
+    if (action === "chat") {  
 
-        if (action === "share") {
+        if (!product || !product.id) {  
 
-            const shareUrl =
-                window.location.origin +
-                window.location.pathname +
-                "?product=" +
-                encodeURIComponent(
-                    product.id
-                );
+            showToast(  
+                toastEl,  
+                "Product information unavailable"  
+            );  
 
-            const shareData = {
+            return;  
+        }  
 
-                title:
-                    product.name ||
-                    "UniBuy Product",
 
-                text:
-                    (product.name || "Product") +
-                    " - " +
-                    formatPrice(
-                        product.price
-                    ) +
-                    " on UniBuy",
+        /*  
+         * app.js provides this function.  
+         *  
+         * It will use the product information  
+         * and Firebase to find the seller's  
+         * WhatsApp number.  
+         */  
 
-                url:
-                    shareUrl
+        if (  
+            typeof window.contactSellerOnWhatsApp ===  
+            "function"  
+        ) {  
 
-            };
+            window.contactSellerOnWhatsApp(  
+                product  
+            );  
 
-            if (
-                navigator.share
-            ) {
+        } else {  
 
-                navigator.share(
-                    shareData
-                ).catch(
-                    function () {}
-                );
+            showToast(  
+                toastEl,  
+                "WhatsApp contact is unavailable"  
+            );  
 
-            } else if (
-                navigator.clipboard &&
-                navigator.clipboard.writeText
-            ) {
+            console.error(  
+                "contactSellerOnWhatsApp() is not available."  
+            );  
 
-                navigator.clipboard.writeText(
-                    shareUrl
-                ).then(
-                    function () {
+        }  
 
-                        showToast(
-                            toastEl,
-                            "Link copied to clipboard"
-                        );
-                    }
-                ).catch(
-                    function () {
+        return;  
+    }  
+}  
 
-                        showToast(
-                            toastEl,
-                            "Share: " +
-                            shareUrl
-                        );
-                    }
-                );
 
-            } else {
+/* =========================================================  
+   RENDER SLIDES  
+   ========================================================= */  
 
-                showToast(
-                    toastEl,
-                    "Share: " +
-                    shareUrl
-                );
+function renderSlides() {  
 
-            }
+    extendFeedIfNeeded();  
 
-            return;
-        }
+    track.classList.add(  
+        "no-transition"  
+    );  
 
+    track.style.transform =  
+        "translateY(0%)";  
 
-        /* =========================
-           NOT INTERESTED
-        ========================= */
+    track.innerHTML = "";  
 
-        if (
-            action ===
-            "not-interested"
-        ) {
+    for (  
+        let i =  
+            currentIndex -  
+            RENDER_RADIUS;  
 
-            if (
-                product.category
-            ) {
+        i <=  
+            currentIndex +  
+            RENDER_RADIUS;  
 
-                notInterestedCategories.add(
-                    product.category
-                );
+        i++  
+    ) {  
 
-            }
+        if (i < 0) {  
+            continue;  
+        }  
 
-            showToast(
-                toastEl,
-                "Got it — showing less like this"
-            );
+        const product =  
+            feed[i];  
 
-            setTimeout(
-                goToNext,
-                350
-            );
+        if (!product) {  
+            continue;  
+        }  
 
-            return;
-        }
+        const pos =  
+            i -  
+            currentIndex;  
 
+        track.appendChild(  
+            buildSlide(  
+                product,  
+                pos  
+            )  
+        );  
+    }  
 
-        /* =========================
-           BUY
-        ========================= */
+    track.offsetHeight;  
 
-        if (action === "buy") {
+    track.classList.remove(  
+        "no-transition"  
+    );  
+}  
 
-            showToast(
-                toastEl,
-                "Buy Now flow coming soon"
-            );
 
-            return;
-        }
+/* =========================================================  
+   NEXT  
+   ========================================================= */  
 
+function goToNext() {  
 
-        /* =========================
-           CHAT WITH SELLER
-           WHATSAPP
-        ========================= */
+    currentIndex += 1;  
 
-        if (action === "chat") {
+    extendFeedIfNeeded();  
 
-            if (!product || !product.id) {
+    animateTo(  
+        -1,  
+        function () {  
 
-                showToast(
-                    toastEl,
-                    "Product information unavailable"
-                );
+            renderSlides();  
 
-                return;
-            }
+            preloadAround(  
+                currentIndex  
+            );  
 
+        }  
+    );  
+}  
 
-            /*
-             * app.js provides this function.
-             *
-             * It will use the product information
-             * and Firebase to find the seller's
-             * WhatsApp number.
-             */
 
-            if (
-                typeof window.contactSellerOnWhatsApp ===
-                "function"
-            ) {
+/* =========================================================  
+   PREVIOUS  
+   ========================================================= */  
 
-                window.contactSellerOnWhatsApp(
-                    product
-                );
+function goToPrevious() {  
 
-            } else {
+    if (  
+        currentIndex <= 0  
+    ) {  
+        return;  
+    }  
 
-                showToast(
-                    toastEl,
-                    "WhatsApp contact is unavailable"
-                );
+    currentIndex -= 1;  
 
-                console.error(
-                    "contactSellerOnWhatsApp() is not available."
-                );
+    animateTo(  
+        1,  
+        function () {  
 
-            }
+            renderSlides();  
 
-            return;
-        }
-    }
+            preloadAround(  
+                currentIndex  
+            );  
 
+        }  
+    );  
+}  
 
-    /* =========================================================
-       RENDER SLIDES
-       ========================================================= */
 
-    function renderSlides() {
+/* =========================================================  
+   ANIMATION  
+   ========================================================= */  
 
-        extendFeedIfNeeded();
+function animateTo(  
+    direction,  
+    done  
+) {  
 
-        track.classList.add(
-            "no-transition"
-        );
+    track.classList.remove(  
+        "no-transition"  
+    );  
 
-        track.style.transform =
-            "translateY(0%)";
+    track.style.transform =  
+        "translateY(" +  
+        (direction * 100) +  
+        "%)";  
 
-        track.innerHTML = "";
+    setTimeout(  
+        function () {  
 
-        for (
-            let i =
-                currentIndex -
-                RENDER_RADIUS;
+            track.classList.add(  
+                "no-transition"  
+            );  
 
-            i <=
-                currentIndex +
-                RENDER_RADIUS;
+            done();  
 
-            i++
-        ) {
+            track.offsetHeight;  
 
-            if (i < 0) {
-                continue;
-            }
+            track.classList.remove(  
+                "no-transition"  
+            );  
 
-            const product =
-                feed[i];
+        },  
+        400  
+    );  
+}  
 
-            if (!product) {
-                continue;
-            }
 
-            const pos =
-                i -
-                currentIndex;
+/* =========================================================  
+   SHIFT PRODUCT PHOTO  
+   ========================================================= */  
 
-            track.appendChild(
-                buildSlide(
-                    product,
-                    pos
-                )
-            );
-        }
+function shiftPhoto(  
+    slideEl,  
+    delta  
+) {  
 
-        track.offsetHeight;
+    const pos =  
+        Number(  
+            slideEl.dataset.pos  
+        );  
 
-        track.classList.remove(
-            "no-transition"
-        );
-    }
+    const photosWrap =  
+        slideEl.querySelector(  
+            ".swipe-photos"  
+        );  
 
+    if (!photosWrap) {  
+        return;  
+    }  
 
-    /* =========================================================
-       NEXT
-       ========================================================= */
+    const total =  
+        photosWrap.children.length;  
 
-    function goToNext() {
+    if (total <= 1) {  
+        return;  
+    }  
 
-        currentIndex += 1;
+    let index =  
+        (photoIndex[pos] || 0) +  
+        delta;  
 
-        extendFeedIfNeeded();
+    index =  
+        Math.max(  
+            0,  
+            Math.min(  
+                total - 1,  
+                index  
+            )  
+        );  
 
-        animateTo(
-            -1,
-            function () {
+    photoIndex[pos] =  
+        index;  
 
-                renderSlides();
+    photosWrap.style.transform =  
+        "translateX(-" +  
+        (index * 100) +  
+        "%)";  
 
-                preloadAround(
-                    currentIndex
-                );
+    const dots =  
+        slideEl.querySelectorAll(  
+            ".swipe-dots span"  
+        );  
 
-            }
-        );
-    }
+    dots.forEach(  
+        function (dot, i) {  
 
+            dot.classList.toggle(  
+                "active",  
+                i === index  
+            );  
 
-    /* =========================================================
-       PREVIOUS
-       ========================================================= */
+        }  
+    );  
+}  
 
-    function goToPrevious() {
 
-        if (
-            currentIndex <= 0
-        ) {
-            return;
-        }
+/* =========================================================  
+   TOUCH VARIABLES  
+   ========================================================= */  
 
-        currentIndex -= 1;
+let startX = 0;  
+let startY = 0;  
+let isDragging = false;  
+let axisLocked = null;  
 
-        animateTo(
-            1,
-            function () {
 
-                renderSlides();
+/* =========================================================  
+   TOUCH START  
+   ========================================================= */  
 
-                preloadAround(
-                    currentIndex
-                );
+function onTouchStart(e) {  
 
-            }
-        );
-    }
+    const t =  
+        e.touches  
+            ? e.touches[0]  
+            : e;  
 
+    startX =  
+        t.clientX;  
 
-    /* =========================================================
-       ANIMATION
-       ========================================================= */
+    startY =  
+        t.clientY;  
 
-    function animateTo(
-        direction,
-        done
-    ) {
+    isDragging =  
+        true;  
 
-        track.classList.remove(
-            "no-transition"
-        );
+    axisLocked =  
+        null;  
+}  
 
-        track.style.transform =
-            "translateY(" +
-            (direction * 100) +
-            "%)";
 
-        setTimeout(
-            function () {
+/* =========================================================  
+   TOUCH MOVE  
+   ========================================================= */  
 
-                track.classList.add(
-                    "no-transition"
-                );
+function onTouchMove(e) {  
 
-                done();
+    if (!isDragging) {  
+        return;  
+    }  
 
-                track.offsetHeight;
+    const t =  
+        e.touches  
+            ? e.touches[0]  
+            : e;  
 
-                track.classList.remove(
-                    "no-transition"
-                );
+    const dx =  
+        t.clientX -  
+        startX;  
 
-            },
-            400
-        );
-    }
+    const dy =  
+        t.clientY -  
+        startY;  
 
+    if (!axisLocked) {  
 
-    /* =========================================================
-       SHIFT PRODUCT PHOTO
-       ========================================================= */
+        if (  
+            Math.abs(dx) > 10 ||  
+            Math.abs(dy) > 10  
+        ) {  
 
-    function shiftPhoto(
-        slideEl,
-        delta
-    ) {
+            axisLocked =  
+                Math.abs(dx) >  
+                Math.abs(dy)  
+                    ? "x"  
+                    : "y";  
+        }  
+    }  
 
-        const pos =
-            Number(
-                slideEl.dataset.pos
-            );
+    if (  
+        axisLocked === "y" &&  
+        e.cancelable  
+    ) {  
 
-        const photosWrap =
-            slideEl.querySelector(
-                ".swipe-photos"
-            );
+        e.preventDefault();  
 
-        if (!photosWrap) {
-            return;
-        }
+    }  
+}  
 
-        const total =
-            photosWrap.children.length;
 
-        if (total <= 1) {
-            return;
-        }
+/* =========================================================  
+   TOUCH END  
+   ========================================================= */  
 
-        let index =
-            (photoIndex[pos] || 0) +
-            delta;
+function onTouchEnd(e) {  
 
-        index =
-            Math.max(
-                0,
-                Math.min(
-                    total - 1,
-                    index
-                )
-            );
+    if (!isDragging) {  
+        return;  
+    }  
 
-        photoIndex[pos] =
-            index;
+    isDragging =  
+        false;  
 
-        photosWrap.style.transform =
-            "translateX(-" +
-            (index * 100) +
-            "%)";
+    const t =  
+        e.changedTouches  
+            ? e.changedTouches[0]  
+            : e;  
 
-        const dots =
-            slideEl.querySelectorAll(
-                ".swipe-dots span"
-            );
+    const dx =  
+        t.clientX -  
+        startX;  
 
-        dots.forEach(
-            function (dot, i) {
+    const dy =  
+        t.clientY -  
+        startY;  
 
-                dot.classList.toggle(
-                    "active",
-                    i === index
-                );
+    const THRESHOLD =  
+        50;  
 
-            }
-        );
-    }
 
+    /* ---------- VERTICAL ---------- */  
 
-    /* =========================================================
-       TOUCH VARIABLES
-       ========================================================= */
+    if (  
+        axisLocked === "y"  
+    ) {  
 
-    let startX = 0;
-    let startY = 0;
-    let isDragging = false;
-    let axisLocked = null;
+        if (  
+            dy < -THRESHOLD  
+        ) {  
 
+            goToNext();  
 
-    /* =========================================================
-       TOUCH START
-       ========================================================= */
+        } else if (  
+            dy > THRESHOLD  
+        ) {  
 
-    function onTouchStart(e) {
+            goToPrevious();  
 
-        const t =
-            e.touches
-                ? e.touches[0]
-                : e;
+        }  
 
-        startX =
-            t.clientX;
+        return;  
+    }  
 
-        startY =
-            t.clientY;
 
-        isDragging =
-            true;
+    /* ---------- HORIZONTAL ---------- */  
 
-        axisLocked =
-            null;
-    }
+    if (  
+        axisLocked === "x"  
+    ) {  
 
+        const slideEl =  
+            e.target.closest  
+                ? e.target.closest(  
+                    ".swipe-slide"  
+                )  
+                : null;  
 
-    /* =========================================================
-       TOUCH MOVE
-       ========================================================= */
+        if (!slideEl) {  
+            return;  
+        }  
 
-    function onTouchMove(e) {
+        if (  
+            dx < -THRESHOLD  
+        ) {  
 
-        if (!isDragging) {
-            return;
-        }
+            shiftPhoto(  
+                slideEl,  
+                1  
+            );  
 
-        const t =
-            e.touches
-                ? e.touches[0]
-                : e;
+        } else if (  
+            dx > THRESHOLD  
+        ) {  
 
-        const dx =
-            t.clientX -
-            startX;
+            shiftPhoto(  
+                slideEl,  
+                -1  
+            );  
 
-        const dy =
-            t.clientY -
-            startY;
+        }  
+    }  
+}  
 
-        if (!axisLocked) {
 
-            if (
-                Math.abs(dx) > 10 ||
-                Math.abs(dy) > 10
-            ) {
+/* =========================================================  
+   KEYBOARD  
+   ========================================================= */  
 
-                axisLocked =
-                    Math.abs(dx) >
-                    Math.abs(dy)
-                        ? "x"
-                        : "y";
-            }
-        }
+function onKeyDown(e) {  
 
-        if (
-            axisLocked === "y" &&
-            e.cancelable
-        ) {
+    if (  
+        viewer.classList.contains(  
+            "hidden"  
+        )  
+    ) {  
+        return;  
+    }  
 
-            e.preventDefault();
+    if (  
+        e.key === "Escape"  
+    ) {  
 
-        }
-    }
+        close();  
 
+    } else if (  
+        e.key === "ArrowUp"  
+    ) {  
 
-    /* =========================================================
-       TOUCH END
-       ========================================================= */
+        goToNext();  
 
-    function onTouchEnd(e) {
+    } else if (  
+        e.key === "ArrowDown"  
+    ) {  
 
-        if (!isDragging) {
-            return;
-        }
+        goToPrevious();  
 
-        isDragging =
-            false;
+    } else if (  
+        e.key === "ArrowRight" ||  
+        e.key === "ArrowLeft"  
+    ) {  
 
-        const t =
-            e.changedTouches
-                ? e.changedTouches[0]
-                : e;
+        const activeSlide =  
+            track.querySelector(  
+                '.swipe-slide[data-pos="0"]'  
+            );  
 
-        const dx =
-            t.clientX -
-            startX;
+        if (activeSlide) {  
 
-        const dy =
-            t.clientY -
-            startY;
+            shiftPhoto(  
+                activeSlide,  
+                e.key === "ArrowRight"  
+                    ? 1  
+                    : -1  
+            );  
 
-        const THRESHOLD =
-            50;
+        }  
+    }  
+}  
 
 
-        /* ---------- VERTICAL ---------- */
+/* =========================================================  
+   ATTACH GESTURES  
+   ========================================================= */  
 
-        if (
-            axisLocked === "y"
-        ) {
+function attachGestures() {  
 
-            if (
-                dy < -THRESHOLD
-            ) {
+    track.addEventListener(  
+        "touchstart",  
+        onTouchStart,  
+        { passive: true }  
+    );  
 
-                goToNext();
+    track.addEventListener(  
+        "touchmove",  
+        onTouchMove,  
+        { passive: false }  
+    );  
 
-            } else if (
-                dy > THRESHOLD
-            ) {
+    track.addEventListener(  
+        "touchend",  
+        onTouchEnd  
+    );  
 
-                goToPrevious();
+    document.addEventListener(  
+        "keydown",  
+        onKeyDown  
+    );  
+}  
 
-            }
 
-            return;
-        }
+/* =========================================================  
+   DETACH GESTURES  
+   ========================================================= */  
 
+function detachGestures() {  
 
-        /* ---------- HORIZONTAL ---------- */
+    track.removeEventListener(  
+        "touchstart",  
+        onTouchStart  
+    );  
 
-        if (
-            axisLocked === "x"
-        ) {
+    track.removeEventListener(  
+        "touchmove",  
+        onTouchMove  
+    );  
 
-            const slideEl =
-                e.target.closest
-                    ? e.target.closest(
-                        ".swipe-slide"
-                    )
-                    : null;
+    track.removeEventListener(  
+        "touchend",  
+        onTouchEnd  
+    );  
 
-            if (!slideEl) {
-                return;
-            }
+    document.removeEventListener(  
+        "keydown",  
+        onKeyDown  
+    );  
+}  
 
-            if (
-                dx < -THRESHOLD
-            ) {
 
-                shiftPhoto(
-                    slideEl,
-                    1
-                );
+/* =========================================================  
+   CLOSE BUTTON  
+   ========================================================= */  
 
-            } else if (
-                dx > THRESHOLD
-            ) {
+if (closeBtn) {  
 
-                shiftPhoto(
-                    slideEl,
-                    -1
-                );
+    closeBtn.addEventListener(  
+        "click",  
+        close  
+    );  
 
-            }
-        }
-    }
+}  
 
 
-    /* =========================================================
-       KEYBOARD
-       ========================================================= */
+/* =========================================================  
+   PUBLIC API  
+   ========================================================= */  
 
-    function onKeyDown(e) {
+return {  
 
-        if (
-            viewer.classList.contains(
-                "hidden"
-            )
-        ) {
-            return;
-        }
+    open: open,  
+    close: close  
 
-        if (
-            e.key === "Escape"
-        ) {
-
-            close();
-
-        } else if (
-            e.key === "ArrowUp"
-        ) {
-
-            goToNext();
-
-        } else if (
-            e.key === "ArrowDown"
-        ) {
-
-            goToPrevious();
-
-        } else if (
-            e.key === "ArrowRight" ||
-            e.key === "ArrowLeft"
-        ) {
-
-            const activeSlide =
-                track.querySelector(
-                    '.swipe-slide[data-pos="0"]'
-                );
-
-            if (activeSlide) {
-
-                shiftPhoto(
-                    activeSlide,
-                    e.key === "ArrowRight"
-                        ? 1
-                        : -1
-                );
-
-            }
-        }
-    }
-
-
-    /* =========================================================
-       ATTACH GESTURES
-       ========================================================= */
-
-    function attachGestures() {
-
-        track.addEventListener(
-            "touchstart",
-            onTouchStart,
-            { passive: true }
-        );
-
-        track.addEventListener(
-            "touchmove",
-            onTouchMove,
-            { passive: false }
-        );
-
-        track.addEventListener(
-            "touchend",
-            onTouchEnd
-        );
-
-        document.addEventListener(
-            "keydown",
-            onKeyDown
-        );
-    }
-
-
-    /* =========================================================
-       DETACH GESTURES
-       ========================================================= */
-
-    function detachGestures() {
-
-        track.removeEventListener(
-            "touchstart",
-            onTouchStart
-        );
-
-        track.removeEventListener(
-            "touchmove",
-            onTouchMove
-        );
-
-        track.removeEventListener(
-            "touchend",
-            onTouchEnd
-        );
-
-        document.removeEventListener(
-            "keydown",
-            onKeyDown
-        );
-    }
-
-
-    /* =========================================================
-       CLOSE BUTTON
-       ========================================================= */
-
-    if (closeBtn) {
-
-        closeBtn.addEventListener(
-            "click",
-            close
-        );
-
-    }
-
-
-    /* =========================================================
-       PUBLIC API
-       ========================================================= */
-
-    return {
-
-        open: open,
-        close: close
-
-    };
+};
 
 })();
