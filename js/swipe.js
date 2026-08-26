@@ -1,3 +1,11 @@
+import { db } from "./firebase.js";
+
+import {
+    doc,
+    updateDoc,
+    increment
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
 window.UniBuySwipe = (function () {
 
     const viewer = document.getElementById("swipeViewer");
@@ -530,7 +538,7 @@ window.UniBuySwipe = (function () {
        HANDLE ACTION
        ========================================================= */
 
-    function handleAction(
+    async function handleAction(
         action,
         product,
         btn,
@@ -544,34 +552,181 @@ window.UniBuySwipe = (function () {
 
         if (action === "like") {
 
-            if (
-                likedIds.has(
-                    product.id
+    const alreadyLiked =
+        likedIds.has(product.id);
+
+    const change =
+        alreadyLiked
+            ? -1
+            : 1;
+
+    /*
+     * Update local state immediately
+     */
+    if (alreadyLiked) {
+
+        likedIds.delete(
+            product.id
+        );
+
+        btn.classList.remove(
+            "liked"
+        );
+
+    } else {
+
+        likedIds.add(
+            product.id
+        );
+
+        btn.classList.add(
+            "liked"
+        );
+    }
+
+    /*
+     * Update the displayed number immediately
+     */
+    const currentLikes =
+        Number(product.likes || 0);
+
+    const newLikes =
+        Math.max(
+            0,
+            currentLikes + change
+        );
+
+    product.likes =
+        newLikes;
+
+    /*
+     * Find the number/label inside
+     * the like button.
+     */
+    const icon =
+        btn.querySelector("i");
+
+    if (icon) {
+
+        /*
+         * The label is the text node
+         * after the icon.
+         */
+        const textNode =
+            Array.from(
+                btn.childNodes
+            ).find(function(node) {
+
+                return (
+                    node.nodeType ===
+                    Node.TEXT_NODE
+                );
+
+            });
+
+        if (textNode) {
+
+            textNode.nodeValue =
+                " " +
+                newLikes;
+
+        } else {
+
+            btn.appendChild(
+                document.createTextNode(
+                    " " + newLikes
                 )
-            ) {
+            );
 
-                likedIds.delete(
-                    product.id
-                );
-
-                btn.classList.remove(
-                    "liked"
-                );
-
-            } else {
-
-                likedIds.add(
-                    product.id
-                );
-
-                btn.classList.add(
-                    "liked"
-                );
-
-            }
-
-            return;
         }
+    }
+
+    /*
+     * Save to Firestore
+     */
+    try {
+
+        await updateDoc(
+            doc(
+                db,
+                "products",
+                product.id
+            ),
+            {
+                likes:
+                    increment(change)
+            }
+        );
+
+        console.log(
+            "Like updated:",
+            product.id,
+            change
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Failed to update like:",
+            error
+        );
+
+        /*
+         * Roll back local change
+         * if Firebase fails.
+         */
+        product.likes =
+            currentLikes;
+
+        if (alreadyLiked) {
+
+            likedIds.add(
+                product.id
+            );
+
+            btn.classList.add(
+                "liked"
+            );
+
+        } else {
+
+            likedIds.delete(
+                product.id
+            );
+
+            btn.classList.remove(
+                "liked"
+            );
+
+        }
+
+        const textNode =
+            Array.from(
+                btn.childNodes
+            ).find(function(node) {
+
+                return (
+                    node.nodeType ===
+                    Node.TEXT_NODE
+                );
+
+            });
+
+        if (textNode) {
+
+            textNode.nodeValue =
+                " " + currentLikes;
+
+        }
+
+        showToast(
+            toastEl,
+            "Couldn't update like"
+        );
+    }
+
+    return;
+}
 
 
         /* =========================
