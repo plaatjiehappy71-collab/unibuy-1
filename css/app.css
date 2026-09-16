@@ -2498,3 +2498,18 @@ body{
     }
 
 }
+
+/* ===========================
+   UNIBUY GLOBAL BLACK HEADER
+=========================== */
+
+.navbar{
+    background:#000000 !important;
+    color:#ffffff !important;
+}
+
+.navbar .menu-btn,
+.navbar .icon-btn,
+.navbar .cart-icon{
+    color:#ffffff !important;
+}
