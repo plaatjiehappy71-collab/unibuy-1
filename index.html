@@ -1,114 +1,478 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UniBuy</title>
+
+    <title>UniBuy | Shop. Scroll. Enjoy.</title>
+
+    <meta name="description"
+          content="Discover fashion, beauty, accessories and lifestyle products at UniBuy South Africa.">
+
     <link rel="stylesheet" href="css/landing.css">
     <link rel="stylesheet" href="css/swipe.css">
+
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
+
 <body>
 
-    <!-- Header -->
-    <header>
-        <div class="menu-logo">
-            <button class="menu-btn" onclick="toggleSidebar()">
-                <i class="fas fa-bars"></i>
-            </button>
+<!-- HEADER -->
+<header class="main-header">
+    <div class="menu-logo">
+        <button class="menu-btn" onclick="toggleSidebar()"
+                aria-label="Open menu">
+            <i class="fas fa-bars"></i>
+        </button>
 
-            <h1>UniBuy</h1>
+        <h1>UniBuy</h1>
+    </div>
+
+    <div class="header-actions">
+        <a href="saved.html" aria-label="Saved products">
+            <i class="far fa-heart"></i>
+        </a>
+
+        <a href="settings.html" aria-label="My account">
+            <i class="far fa-user"></i>
+        </a>
+    </div>
+</header>
+
+<!-- SIDEBAR -->
+<aside id="sidebar" class="sidebar">
+
+    <a href="index.html">
+        <i class="fas fa-home"></i> Home
+    </a>
+
+    <a href="sell.html">
+        <i class="fas fa-plus-circle"></i> Sell Item
+    </a>
+
+    <a href="mylistings.html">
+        <i class="fas fa-box"></i> My Listings
+    </a>
+
+    <a href="saved.html">
+        <i class="fas fa-heart"></i> Saved Items
+    </a>
+
+    <a href="universities.html">
+        <i class="fas fa-school"></i> Universities
+    </a>
+
+    <a href="settings.html">
+        <i class="fas fa-cog"></i> Settings
+    </a>
+
+    <a href="contact.html">
+        <i class="fas fa-envelope"></i> Contact Us
+    </a>
+
+    <a href="terms.html">
+        <i class="fas fa-file-contract"></i> Terms
+    </a>
+
+    <a href="login.html" id="authLink">
+        <i class="fas fa-sign-in-alt"></i> Login/Register
+    </a>
+
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="store-home">
+
+    <!-- SEARCH -->
+    <section class="store-search">
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text"
+                   placeholder="Search products, brands..."
+                   aria-label="Search products">
         </div>
-    </header>
+    </section>
 
-    <!-- Sidebar -->
-    <aside id="sidebar" class="sidebar">
+    <!-- PROMOTIONAL HERO -->
+    <section class="store-hero">
 
-        <a href="index.html">
-            <i class="fas fa-home"></i> Home
-        </a>
+        <div class="hero-content">
+            <span class="hero-label">WELCOME TO UNIBUY</span>
 
-        <a href="sell.html">
-            <i class="fas fa-plus-circle"></i> Sell Item
-        </a>
+            <h2>YOUR STYLE.<br>YOUR WORLD.</h2>
 
-        <a href="mylistings.html">
-            <i class="fas fa-box"></i> My Listings
-        </a>
+            <p>Discover products you'll love.</p>
 
+            <a href="#allProducts" class="hero-btn">
+                SHOP NOW <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
 
-        <a href="saved.html">
-            <i class="fas fa-heart"></i> Saved Items
-        </a>
+        <div class="hero-decoration">
+            <span>UB</span>
+        </div>
 
-        <a href="universities.html">
-            <i class="fas fa-school"></i> Universities
-        </a>
+    </section>
 
-        <a href="settings.html">
-            <i class="fas fa-cog"></i> Settings
-        </a>
+    <!-- DELIVERY PROMOTION -->
+    <section class="delivery-strip">
+        <i class="fas fa-truck"></i>
 
-        <a href="contact.html">
-            <i class="fas fa-envelope"></i> Contact Us
-        </a>
+        <div>
+            <strong>FREE DELIVERY</strong>
+            <span>On orders of R650 or more</span>
+        </div>
 
-        <a href="terms.html">
-            <i class="fas fa-file-contract"></i> Terms
-        </a>
+        <i class="fas fa-arrow-right"></i>
+    </section>
 
-        <a href="login.html" id="authLink">
-    <i class="fas fa-sign-in-alt"></i> Login/Register
-</a>
+    <!-- SHOP CATEGORIES -->
+    <section class="categories-section">
 
-    </aside>
+        <div class="section-heading">
+            <h2>SHOP BY CATEGORY</h2>
+        </div>
 
-    <!-- Main -->
-<main>
+        <div class="category-list">
 
-    <!-- Search -->
-    <div class="search-box">
-        <input type="text" placeholder="Search products...">
-    </div>
+            <a href="#allProducts" class="category-item">
+                <div class="category-icon">
+                    <i class="fas fa-shirt"></i>
+                </div>
+                <span>Fashion</span>
+            </a>
 
-  <!-- Hot Right Now -->
-<section class="hot-section">
+            <a href="#allProducts" class="category-item">
+                <div class="category-icon">
+                    <i class="fas fa-spa"></i>
+                </div>
+                <span>Beauty</span>
+            </a>
 
-    <div class="hot-header">
-        <h2>
-            <span>🔥</span> HOT RIGHT NOW
-        </h2>
+            <a href="#allProducts" class="category-item">
+                <div class="category-icon">
+                    <i class="fas fa-gem"></i>
+                </div>
+                <span>Accessories</span>
+            </a>
 
-        <span class="hot-subtitle">Trending today</span>
-    </div>
+            <a href="#allProducts" class="category-item">
+                <div class="category-icon">
+                    <i class="fas fa-mobile-screen"></i>
+                </div>
+                <span>Lifestyle</span>
+            </a>
 
-    <div class="hot-products" id="hotProducts">
-        <div class="hot-loading">Loading...</div>
-    </div>
+        </div>
 
-</section>
+    </section>
 
-<!-- Products -->
-<section class="product-grid" id="productGrid">
-    <!-- Cards are rendered here by js/products.js -->
-</section>
+    <!-- TRENDING PRODUCTS -->
+    <section class="hot-section">
 
-    <!-- Products -->
-    <section class="product-grid" id="productGrid">
-        <!-- Cards are rendered here by js/products.js -->
+        <div class="hot-header">
+            <h2><span>🔥</span> TRENDING NOW</h2>
+            <span class="hot-subtitle">Popular products</span>
+        </div>
+
+        <div class="hot-products" id="hotProducts">
+            <div class="hot-loading">Loading products...</div>
+        </div>
+
+    </section>
+
+    <!-- NEW ARRIVALS LABEL -->
+    <section class="new-arrivals-section">
+
+        <div class="section-heading">
+            <h2>NEW ARRIVALS</h2>
+            <span>Discover something new</span>
+        </div>
+
+    </section>
+
+    <!-- ALL PRODUCTS -->
+    <section class="product-section" id="allProducts">
+
+        <div class="section-heading">
+            <h2>EXPLORE PRODUCTS</h2>
+            <span>Find your next favourite</span>
+        </div>
+
+        <section class="product-grid" id="productGrid">
+            <!-- Products rendered by js/products.js -->
+        </section>
+
+    </section>
+
+    <!-- BOTTOM PROMOTION -->
+    <section class="store-promo">
+        <h2>SHOP. SCROLL. ENJOY.</h2>
+        <p>Your next favourite product is waiting.</p>
     </section>
 
 </main>
 
-    <!-- Full-screen swipe viewer -->
-    <div id="swipeViewer" class="swipe-viewer hidden" aria-hidden="true">
-        <button class="swipe-close" id="swipeClose" aria-label="Close">
-            <i class="fas fa-xmark"></i>
+<!-- SWIPE VIEWER -->
+<div id="swipeViewer"
+     class="swipe-viewer hidden"
+     aria-hidden="true">
+
+    <button class="swipe-close"
+            id="swipeClose"
+            aria-label="Close">
+        <i class="fas fa-xmark"></i>
+    </button>
+
+    <div class="swipe-track" id="swipeTrack"></div>
+
+</div>
+
+<!-- SCRIPTS -->
+<script src="js/landing.js"></script>
+<script src="js/saved.js"></script>
+<script src="js/swipe.js"></script>
+
+<script type="module" src="js/app.js"></script>
+<script type="module" src="js/products.js"></script>
+
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>UniBuy | Shop. Scroll. Enjoy.</title>
+
+    <meta name="description"
+          content="Discover fashion, beauty, accessories and lifestyle products at UniBuy South Africa.">
+
+    <link rel="stylesheet" href="css/landing.css">
+    <link rel="stylesheet" href="css/swipe.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="main-header">
+    <div class="menu-logo">
+        <button class="menu-btn" onclick="toggleSidebar()"
+                aria-label="Open menu">
+            <i class="fas fa-bars"></i>
         </button>
-        <div class="swipe-track" id="swipeTrack"></div>
+
+        <h1>UniBuy</h1>
     </div>
 
+    <div class="header-actions">
+        <a href="saved.html" aria-label="Saved products">
+            <i class="far fa-heart"></i>
+        </a>
+
+        <a href="settings.html" aria-label="My account">
+            <i class="far fa-user"></i>
+        </a>
+    </div>
+</header>
+
+<!-- SIDEBAR -->
+<aside id="sidebar" class="sidebar">
+
+    <a href="index.html">
+        <i class="fas fa-home"></i> Home
+    </a>
+
+    <a href="sell.html">
+        <i class="fas fa-plus-circle"></i> Sell Item
+    </a>
+
+    <a href="mylistings.html">
+        <i class="fas fa-box"></i> My Listings
+    </a>
+
+    <a href="saved.html">
+        <i class="fas fa-heart"></i> Saved Items
+    </a>
+
+    <a href="universities.html">
+        <i class="fas fa-school"></i> Universities
+    </a>
+
+    <a href="settings.html">
+        <i class="fas fa-cog"></i> Settings
+    </a>
+
+    <a href="contact.html">
+        <i class="fas fa-envelope"></i> Contact Us
+    </a>
+
+    <a href="terms.html">
+        <i class="fas fa-file-contract"></i> Terms
+    </a>
+
+    <a href="login.html" id="authLink">
+        <i class="fas fa-sign-in-alt"></i> Login/Register
+    </a>
+
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="store-home">
+
+    <!-- SEARCH -->
+    <section class="store-search">
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text"
+                   placeholder="Search products, brands..."
+                   aria-label="Search products">
+        </div>
+    </section>
+
+    <!-- PROMOTIONAL HERO -->
+    <section class="store-hero">
+
+        <div class="hero-content">
+            <span class="hero-label">WELCOME TO UNIBUY</span>
+
+            <h2>YOUR STYLE.<br>YOUR WORLD.</h2>
+
+            <p>Discover products you'll love.</p>
+
+            <a href="#allProducts" class="hero-btn">
+                SHOP NOW <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+
+        <div class="hero-decoration">
+            <span>UB</span>
+        </div>
+
+    </section>
+
+    <!-- DELIVERY PROMOTION -->
+    <section class="delivery-strip">
+        <i class="fas fa-truck"></i>
+
+        <div>
+            <strong>FREE DELIVERY</strong>
+            <span>On orders of R650 or more</span>
+        </div>
+
+        <i class="fas fa-arrow-right"></i>
+    </section>
+
+    <!-- SHOP CATEGORIES -->
+    <section class="categories-section">
+
+        <div class="section-heading">
+            <h2>SHOP BY CATEGORY</h2>
+        </div>
+
+        <div class="category-list">
+
+            <a href="#allProducts" class="category-item">
+                <div class="category-icon">
+                    <i class="fas fa-shirt"></i>
+                </div>
+                <span>Fashion</span>
+            </a>
+
+            <a href="#allProducts" class="category-item">
+                <div class="category-icon">
+                    <i class="fas fa-spa"></i>
+                </div>
+                <span>Beauty</span>
+            </a>
+
+            <a href="#allProducts" class="category-item">
+                <div class="category-icon">
+                    <i class="fas fa-gem"></i>
+                </div>
+                <span>Accessories</span>
+            </a>
+
+            <a href="#allProducts" class="category-item">
+                <div class="category-icon">
+                    <i class="fas fa-mobile-screen"></i>
+                </div>
+                <span>Lifestyle</span>
+            </a>
+
+        </div>
+
+    </section>
+
+    <!-- TRENDING PRODUCTS -->
+    <section class="hot-section">
+
+        <div class="hot-header">
+            <h2><span>🔥</span> TRENDING NOW</h2>
+            <span class="hot-subtitle">Popular products</span>
+        </div>
+
+        <div class="hot-products" id="hotProducts">
+            <div class="hot-loading">Loading products...</div>
+        </div>
+
+    </section>
+
+    <!-- NEW ARRIVALS LABEL -->
+    <section class="new-arrivals-section">
+
+        <div class="section-heading">
+            <h2>NEW ARRIVALS</h2>
+            <span>Discover something new</span>
+        </div>
+
+    </section>
+
+    <!-- ALL PRODUCTS -->
+    <section class="product-section" id="allProducts">
+
+        <div class="section-heading">
+            <h2>EXPLORE PRODUCTS</h2>
+            <span>Find your next favourite</span>
+        </div>
+
+        <section class="product-grid" id="productGrid">
+            <!-- Products rendered by js/products.js -->
+        </section>
+
+    </section>
+
+    <!-- BOTTOM PROMOTION -->
+    <section class="store-promo">
+        <h2>SHOP. SCROLL. ENJOY.</h2>
+        <p>Your next favourite product is waiting.</p>
+    </section>
+
+</main>
+
+<!-- SWIPE VIEWER -->
+<div id="swipeViewer"
+     class="swipe-viewer hidden"
+     aria-hidden="true">
+
+    <button class="swipe-close"
+            id="swipeClose"
+            aria-label="Close">
+        <i class="fas fa-xmark"></i>
+    </button>
+
+    <div class="swipe-track" id="swipeTrack"></div>
+
+</div>
+
+<!-- SCRIPTS -->
 <script src="js/landing.js"></script>
 <script src="js/saved.js"></script>
 <script src="js/swipe.js"></script>
