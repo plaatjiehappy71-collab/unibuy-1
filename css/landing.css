@@ -1694,3 +1694,27 @@ button {
         padding: 10px;
     }
 }
+
+
+
+/* HEADER ACTIONS */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.header-actions a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s ease;
+}
+
+.header-actions a:hover {
+    color: #FFD700;
+    transform: scale(1.08);
+}
