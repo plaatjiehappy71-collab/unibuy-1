@@ -19,10 +19,13 @@
 
 <body>
 
+
 <!-- HEADER -->
 <header class="main-header">
+
     <div class="menu-logo">
-        <button class="menu-btn" onclick="toggleSidebar()"
+        <button class="menu-btn"
+                onclick="toggleSidebar()"
                 aria-label="Open menu">
             <i class="fas fa-bars"></i>
         </button>
@@ -31,15 +34,27 @@
     </div>
 
     <div class="header-actions">
+
+        <!-- Shopping Cart -->
+        <a href="cart.html" aria-label="Shopping cart"
+           class="cart-link">
+            <i class="fas fa-shopping-cart"></i>
+        </a>
+
+        <!-- Saved Products -->
         <a href="saved.html" aria-label="Saved products">
             <i class="far fa-heart"></i>
         </a>
 
+        <!-- My Account -->
         <a href="settings.html" aria-label="My account">
             <i class="far fa-user"></i>
         </a>
+
     </div>
+
 </header>
+
 
 <!-- SIDEBAR -->
 <aside id="sidebar" class="sidebar">
