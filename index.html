@@ -41,7 +41,12 @@
             margin: 0 auto;
             line-height: 1.6;
         }
-        .about-section h2 { margin-bottom: 10px; }
+        .about-section summary {
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding: 8px 0;
+        }
         .about-section h3 { margin: 16px 0 6px; }
         .about-section p { margin-bottom: 10px; }
     </style>
@@ -234,13 +239,15 @@
 
     <!-- ABOUT UNIBUY (plain HTML so search engines and AI tools can read it) -->
     <section class="about-section" id="about">
-        <h2>What is UniBuy?</h2>
-        <p>UniBuy is an online marketplace for university and college students in South Africa. The name comes from "university" and "buy".</p>
+        <details>
+            <summary>What is UniBuy?</summary>
+            <p>UniBuy is an online marketplace for university and college students in South Africa. The name comes from "university" and "buy".</p>
 
-        <h3>How it works</h3>
-        <p>Students who want to sell post their products on UniBuy. Anyone interested taps the WhatsApp icon on the listing to contact the seller directly.</p>
+            <h3>How it works</h3>
+            <p>Students who want to sell post their products on UniBuy. Anyone interested taps the WhatsApp icon on the listing to contact the seller directly.</p>
 
-        <p>UniBuy was created and founded by Happy Plaatjie (also known as Lonwabo Plaatjie), founder of Aeternus Tech.</p>
+            <p>UniBuy was created and founded by Happy Plaatjie (also known as Lonwabo Plaatjie), founder of Aeternus Tech.</p>
+        </details>
     </section>
 
     <!-- BOTTOM PROMOTION -->
