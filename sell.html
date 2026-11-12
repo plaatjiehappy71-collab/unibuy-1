@@ -1,76 +1,255 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sell Item - UniBuy</title>
+
+    <title>Post a Product | UniBuy</title>
+
+    <meta name="description"
+          content="Post your products on UniBuy South Africa and reach potential customers.">
+
     <link rel="stylesheet" href="css/app.css">
+
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
+
 <body>
 
+<!-- HEADER -->
 <div class="navbar">
-    <button class="menu-btn" onclick="toggleSidebar()">
+
+    <button class="menu-btn"
+            onclick="toggleSidebar()"
+            aria-label="Open menu">
         <i class="fas fa-bars"></i>
     </button>
+
     <span class="navbar-brand">UniBuy</span>
-    <span style="width:24px"></span>
+
+    <a href="index.html"
+       aria-label="Home"
+       style="color:inherit;">
+        <i class="fas fa-home"></i>
+    </a>
+
 </div>
 
+<!-- SIDEBAR -->
 <aside id="sidebar" class="sidebar">
+
     <button class="close-btn" onclick="toggleSidebar()">
         <i class="fas fa-times"></i>
     </button>
 
     <div id="sidebarUser" style="padding:15px 20px;"></div>
 
-    <a href="index.html"><i class="fas fa-home"></i> Home</a>
-    <a href="sell.html"><i class="fas fa-plus-circle"></i> Sell Item</a>
-    <a href="mylistings.html"><i class="fas fa-box"></i> My Listings</a>
-    <a href="messages.html"><i class="fas fa-comments"></i> Messages</a>
-    <a href="saved.html"><i class="fas fa-heart"></i> Saved Items</a>
-    <a href="universities.html"><i class="fas fa-school"></i> Universities</a>
-    <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
-    <a href="contact.html"><i class="fas fa-envelope"></i> Contact Us</a>
-    <a href="terms.html"><i class="fas fa-file-contract"></i> Terms</a>
-    <a href="login.html" id="loginLink"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    <a href="index.html">
+        <i class="fas fa-home"></i> Home
+    </a>
+
+    <a href="sell.html">
+        <i class="fas fa-plus-circle"></i> Post a Product
+    </a>
+
+    <a href="mylistings.html">
+        <i class="fas fa-box"></i> My Listings
+    </a>
+
+    <a href="saved.html">
+        <i class="fas fa-heart"></i> Saved Items
+    </a>
+
+    <a href="universities.html">
+        <i class="fas fa-school"></i> Universities
+    </a>
+
+    <a href="settings.html">
+        <i class="fas fa-cog"></i> Settings
+    </a>
+
+    <a href="contact.html">
+        <i class="fas fa-envelope"></i> Contact Us
+    </a>
+
+    <a href="terms.html">
+        <i class="fas fa-file-contract"></i> Terms
+    </a>
+
+    <a href="login.html" id="loginLink">
+        <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+
 </aside>
 
-<div class="product-form-container">
-    <h1>📦 Sell an Item</h1>
+<!-- PRODUCT POSTING -->
+<main class="product-form-container">
+
+    <div class="post-heading">
+
+        <span class="post-label">
+            SELL ON UNIBUY
+        </span>
+
+        <h1>
+            <i class="fas fa-store"></i>
+            Post a Product
+        </h1>
+
+        <p>
+            Showcase your product and connect with potential buyers.
+        </p>
+
+    </div>
 
     <form id="productForm">
 
-        <input type="text" id="productName" placeholder="Product Name" required>
+        <!-- PRODUCT NAME -->
+        <div class="form-group">
 
-        <input type="number" id="productPrice" placeholder="Price (R)" min="0" required>
+            <label for="productName">
+                Product Name
+            </label>
 
-        <select id="productCategory">
-            <option value="">Select a category</option>
-            <option value="electronics">Electronics</option>
-            <option value="furniture">Furniture</option>
-            <option value="books">Books</option>
-            <option value="appliances">Appliances</option>
-            <option value="transport">Transport</option>
-            <option value="other">Other</option>
-        </select>
+            <input
+                type="text"
+                id="productName"
+                placeholder="e.g. Nike Air Max Sneakers"
+                required
+            >
 
-        <input type="text" id="productLocation" placeholder="Location (e.g. Alice Campus)">
-
-        <textarea id="productDescription" placeholder="Describe your item..."></textarea>
-
-        <div class="product-image-upload">
-            <label for="productImage">Product Photo</label>
-            <input type="file" id="productImage" accept="image/*">
         </div>
 
-        <button type="submit">Post Item</button>
+        <!-- PRICE -->
+        <div class="form-group">
+
+            <label for="productPrice">
+                Price (R)
+            </label>
+
+            <input
+                type="number"
+                id="productPrice"
+                placeholder="e.g. 450"
+                min="0"
+                step="0.01"
+                required
+            >
+
+        </div>
+
+        <!-- CATEGORY -->
+        <div class="form-group">
+
+            <label for="productCategory">
+                Product Category
+            </label>
+
+            <select id="productCategory" required>
+
+                <option value="">Select a category</option>
+
+                <optgroup label="Fashion & Lifestyle">
+
+                    <option value="fashion">Fashion</option>
+
+                    <option value="beauty">Beauty</option>
+
+                    <option value="accessories">Accessories</option>
+
+                    <option value="lifestyle">Lifestyle</option>
+
+                </optgroup>
+
+                <optgroup label="Other Marketplace Categories">
+
+                    <option value="electronics">Electronics</option>
+
+                    <option value="furniture">Furniture</option>
+
+                    <option value="books">Books</option>
+
+                    <option value="appliances">Appliances</option>
+
+                    <option value="transport">Transport</option>
+
+                    <option value="other">Other</option>
+
+                </optgroup>
+
+            </select>
+
+        </div>
+
+        <!-- LOCATION -->
+        <div class="form-group">
+
+            <label for="productLocation">
+                Location
+            </label>
+
+            <input
+                type="text"
+                id="productLocation"
+                placeholder="e.g. Alice Campus"
+            >
+
+        </div>
+
+        <!-- DESCRIPTION -->
+        <div class="form-group">
+
+            <label for="productDescription">
+                Product Description
+            </label>
+
+            <textarea
+                id="productDescription"
+                placeholder="Describe your product, its condition and other important details..."
+                rows="5"
+            ></textarea>
+
+        </div>
+
+        <!-- PRODUCT IMAGE -->
+        <div class="product-image-upload">
+
+            <label for="productImage">
+                <i class="fas fa-camera"></i>
+                Product Photo
+            </label>
+
+            <p>
+                Upload a clear photo of the product you are selling.
+            </p>
+
+            <input
+                type="file"
+                id="productImage"
+                accept="image/*"
+            >
+
+        </div>
+
+        <!-- SUBMIT -->
+        <button type="submit" class="post-product-btn">
+
+            <i class="fas fa-plus-circle"></i>
+            Publish Product
+
+        </button>
 
     </form>
-</div>
 
+</main>
+
+<!-- SCRIPTS -->
 <script src="js/ui.js"></script>
+
 <script type="module" src="js/app.js"></script>
+
 </body>
 </html>
