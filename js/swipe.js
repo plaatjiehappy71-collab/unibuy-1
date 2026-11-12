@@ -343,20 +343,12 @@ function buildSlide(product, pos) {
         '<div class="swipe-price">' +  
             formatPrice(product.price) +  
         "</div>" +  
-
-        '<div class="swipe-meta">' +  
-
-            '<span>' +  
-                '<i class="fas fa-store"></i> ' +  
-                (product.seller || "Seller") +  
-            "</span>" +  
-
-         '<span>' +
-    '<i class="fas fa-store"></i> ' +
-    getSellerDisplay(product) +
-"</span>" +
-
-        "</div>" +  
+'<div class="swipe-meta">' +
+    '<span>' +
+        '<i class="fas fa-store"></i> ' +
+        getSellerDisplay(product) +
+    '</span>' +
+'</div>' +
 
         '<div class="swipe-description">' +  
             (product.description || "No description provided.") +  
