@@ -4,10 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Saved Items - UniBuy</title>
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+
     <link rel="stylesheet" href="css/landing.css">
     <link rel="stylesheet" href="css/swipe.css">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Premium sidebar (keep this AFTER landing.css) -->
+    <link rel="stylesheet" href="css/sidebar.css">
 </head>
 <body>
 
@@ -25,45 +32,36 @@
     <!-- Sidebar -->
     <aside id="sidebar" class="sidebar">
 
-        <a href="index.html">
-            <i class="fas fa-home"></i> Home
-        </a>
+        <div class="sb-brand">
+            <span class="sb-logo">UB</span>
+            <div>
+                <strong>UniBuy</strong>
+                <small>Student marketplace</small>
+            </div>
+        </div>
 
-        <a href="sell.html">
-            <i class="fas fa-plus-circle"></i> Sell Item
-        </a>
+        <nav class="sb-nav">
+            <a href="index.html"><i class="fas fa-home"></i> Home</a>
+            <a href="sell.html"><i class="fas fa-plus-circle"></i> Sell Item</a>
+            <a href="mylistings.html"><i class="fas fa-box"></i> My Listings</a>
+            <a href="saved.html" class="active"><i class="fas fa-heart"></i> Saved Items</a>
 
-        <a href="mylistings.html">
-            <i class="fas fa-box"></i> My Listings
-        </a>
+            <div class="sb-sep"></div>
 
-        <a href="messages.html">
-            <i class="fas fa-comments"></i> Messages
-        </a>
+            <a href="universities.html"><i class="fas fa-school"></i> Universities</a>
+            <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
 
-        <a href="saved.html">
-            <i class="fas fa-heart"></i> Saved Items
-        </a>
+            <div class="sb-sep"></div>
 
-        <a href="universities.html">
-            <i class="fas fa-school"></i> Universities
-        </a>
+            <a href="contact.html"><i class="fas fa-envelope"></i> Contact Us</a>
+            <a href="terms.html"><i class="fas fa-file-contract"></i> Terms</a>
+        </nav>
 
-        <a href="settings.html">
-            <i class="fas fa-cog"></i> Settings
-        </a>
-
-        <a href="contact.html">
-            <i class="fas fa-envelope"></i> Contact Us
-        </a>
-
-        <a href="terms.html">
-            <i class="fas fa-file-contract"></i> Terms
-        </a>
-
-        <a href="login.html" id="authLink">
-            <i class="fas fa-sign-in-alt"></i> Login
-        </a>
+        <div class="sb-foot">
+            <a href="login.html" id="authLink" class="sb-login">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </a>
+        </div>
 
     </aside>
 
