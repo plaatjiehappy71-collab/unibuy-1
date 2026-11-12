@@ -351,10 +351,10 @@ function buildSlide(product, pos) {
                 (product.seller || "Seller") +  
             "</span>" +  
 
-            '<span>' +  
-                '<i class="fas fa-location-dot"></i> ' +  
-                (product.location || "Location not provided") +  
-            "</span>" +  
+         '<span>' +
+    '<i class="fas fa-store"></i> ' +
+    getSellerDisplay(product) +
+"</span>" +
 
         "</div>" +  
 
@@ -1342,3 +1342,37 @@ return {
 };
 
 })();
+
+
+const UNIBUY_OFFICIAL_UID = "DmJTI0CIPGfwjKSsLSIAghPTDGE3";
+
+function getSellerDisplay(product) {
+    if (product.sellerUid === UNIBUY_OFFICIAL_UID) {
+        return `
+            <span class="swipe-seller-name">
+                UniBuy
+                <i class="fas fa-circle-check unibuy-verified"
+                   title="Verified UniBuy account"
+                   aria-label="Verified"></i>
+            </span>
+        `;
+    }
+
+    return `
+        <span class="swipe-seller-name">
+            ${escapeHTML(product.seller || "Seller")}
+        </span>
+    `;
+}
+
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, function (char) {
+        return {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#039;"
+        }[char];
+    });
+}
