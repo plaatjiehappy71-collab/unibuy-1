@@ -869,3 +869,55 @@ button {
     }
 }
 
+
+/* FLOATING POST PRODUCT BUTTON */
+
+.floating-post-btn {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    min-width: 145px;
+    height: 58px;
+    padding: 0 25px;
+
+    background: #006400;
+    color: #ffffff;
+
+    border-radius: 50px;
+    text-decoration: none;
+
+    font-size: 17px;
+    font-weight: 700;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+
+    z-index: 999;
+
+    transition: 0.25s ease;
+}
+
+.floating-post-btn i {
+    font-size: 22px;
+}
+
+.floating-post-btn:hover {
+    background: #004d00;
+    transform: translateX(-50%) translateY(-3px);
+}
+
+.floating-post-btn:active {
+    transform: translateX(-50%) scale(0.95);
+}
+
+/* Keep page content clear of floating button */
+
+.store-home {
+    padding-bottom: 110px;
+}
