@@ -295,3 +295,15 @@
         transition: none !important;
     }
 }
+
+.swipe-seller-name {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.unibuy-verified {
+    color: #1D9BF0;
+    font-size: 15px;
+    margin-left: 2px;
+}
