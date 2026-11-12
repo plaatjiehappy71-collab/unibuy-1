@@ -4,12 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Terms & Conditions - UniBuy</title>
+    <title>Terms &amp; Conditions - UniBuy</title>
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
 
     <link rel="stylesheet" href="css/app.css">
 
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Premium sidebar (keep this AFTER app.css) -->
+    <link rel="stylesheet" href="css/sidebar.css">
 </head>
 
 <body>
@@ -28,51 +34,46 @@
 <!-- SIDEBAR -->
 <aside id="sidebar" class="sidebar">
 
-    <button class="close-btn" onclick="toggleSidebar()">
+    <button class="close-btn" onclick="toggleSidebar()" aria-label="Close menu">
         <i class="fas fa-times"></i>
     </button>
 
-    <div id="sidebarUser" style="padding:15px 20px;"></div>
+    <div class="sb-brand">
 
-    <a href="index.html">
-        <i class="fas fa-home"></i> Home
-    </a>
+        <span class="sb-logo">UB</span>
 
-    <a href="sell.html">
-        <i class="fas fa-plus-circle"></i> Sell Item
-    </a>
+        <div>
+            <strong>UniBuy</strong>
+            <small>Student marketplace</small>
+        </div>
 
-    <a href="mylistings.html">
-        <i class="fas fa-box"></i> My Listings
-    </a>
+        <!-- Greeting is filled in by your JavaScript -->
+        <div id="sidebarUser" class="sidebar-user"></div>
 
-    <a href="messages.html">
-        <i class="fas fa-comments"></i> Messages
-    </a>
+    </div>
 
-    <a href="saved.html">
-        <i class="fas fa-heart"></i> Saved Items
-    </a>
+    <nav class="sb-nav">
+        <a href="index.html"><i class="fas fa-home"></i> Home</a>
+        <a href="sell.html"><i class="fas fa-plus-circle"></i> Sell Item</a>
+        <a href="mylistings.html"><i class="fas fa-box"></i> My Listings</a>
+        <a href="saved.html"><i class="fas fa-heart"></i> Saved Items</a>
 
-    <a href="universities.html">
-        <i class="fas fa-school"></i> Universities
-    </a>
+        <div class="sb-sep"></div>
 
-    <a href="settings.html">
-        <i class="fas fa-cog"></i> Settings
-    </a>
+        <a href="universities.html"><i class="fas fa-school"></i> Universities</a>
+        <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
 
-    <a href="contact.html">
-        <i class="fas fa-envelope"></i> Contact Us
-    </a>
+        <div class="sb-sep"></div>
 
-    <a href="terms.html">
-        <i class="fas fa-file-contract"></i> Terms
-    </a>
+        <a href="contact.html"><i class="fas fa-envelope"></i> Contact Us</a>
+        <a href="terms.html" class="active"><i class="fas fa-file-contract"></i> Terms</a>
+    </nav>
 
-    <a href="login.html" id="loginLink">
-        <i class="fas fa-sign-out-alt"></i> Logout
-    </a>
+    <div class="sb-foot">
+        <a href="login.html" id="loginLink" class="sb-login">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+    </div>
 
 </aside>
 
@@ -83,324 +84,295 @@
     <h1>📄 Terms &amp; Conditions</h1>
 
     <p style="text-align:center; color:#777; font-size:14px;">
-        <strong>Last updated: 19 August 2026</strong>
+        <strong>Last updated: 12 November 2026</strong>
     </p>
 
 
-    <h2>1. Introduction</h2>
+    <h2>1. About these Terms</h2>
 
     <p>
-        Welcome to <strong>UniBuy</strong>. UniBuy is a student-focused
-        online marketplace that allows users to discover, list, and
-        communicate about goods offered for sale by other users.
-    </p>
-
-    <p>
-        By creating an account, accessing, or using UniBuy, you agree
-        to comply with these Terms &amp; Conditions. If you do not agree
-        with these Terms, please do not use UniBuy.
-    </p>
-
-
-    <h2>2. The Role of UniBuy</h2>
-
-    <p>
-        UniBuy provides an online platform that allows buyers and sellers
-        to find one another and communicate regarding potential
-        transactions.
+        Welcome to <strong>UniBuy</strong>, a South African online
+        marketplace that connects buyers with students, individual
+        sellers, entrepreneurs and small businesses. UniBuy makes it
+        easy to discover products, list items for sale and communicate
+        with other users about them.
     </p>
 
     <p>
-        Unless expressly stated otherwise, UniBuy is <strong>not the
-        buyer, seller, manufacturer, distributor, owner, or agent</strong>
-        of goods listed by users.
+        By creating an account, or by accessing or using UniBuy, you
+        agree to these Terms &amp; Conditions. If you do not agree with
+        them, please do not use UniBuy.
+    </p>
+
+
+    <h2>2. Our role</h2>
+
+    <p>
+        UniBuy is a platform that helps buyers and sellers find one
+        another and talk about potential transactions.
     </p>
 
     <p>
-        Transactions are entered into directly between the relevant
-        buyer and seller. UniBuy does not take ownership of goods
-        listed by users and does not guarantee that a transaction
-        will be completed.
+        Unless we state otherwise, UniBuy is <strong>not the buyer,
+        seller, manufacturer, distributor, owner or agent</strong> of
+        any item listed by a user.
     </p>
-
-
-    <h2>3. User Accounts</h2>
 
     <p>
-        Users are responsible for providing information that is accurate,
-        current, and not misleading.
+        Every transaction is agreed directly between the buyer and the
+        seller. UniBuy does not take ownership of listed items and
+        cannot guarantee that a sale will be completed.
     </p>
 
-    <p>Users must not:</p>
+
+    <h2>3. Your account</h2>
+
+    <p>
+        You agree to give us information that is accurate, current and
+        not misleading. You are responsible for all activity on your
+        account and for keeping your login details secure.
+    </p>
+
+    <p>You must not:</p>
 
     <ul>
         <li>Create an account using another person's identity.</li>
         <li>Impersonate another user or organisation.</li>
         <li>Create accounts for fraudulent or abusive purposes.</li>
-        <li>Attempt to access another user's account without permission.</li>
-        <li>Use UniBuy for unlawful, fraudulent, deceptive, or abusive activities.</li>
+        <li>Access another user's account without permission.</li>
+        <li>Use UniBuy for unlawful, fraudulent, deceptive or abusive activity.</li>
     </ul>
 
-    <p>
-        You are responsible for activity carried out through your account
-        and should take reasonable steps to keep your login information
-        secure.
-    </p>
 
-
-    <h2>4. Seller Responsibilities</h2>
+    <h2>4. Selling on UniBuy</h2>
 
     <p>
         Sellers are responsible for the accuracy and legality of their
-        listings.
+        listings. When you list an item, you must:
     </p>
 
-    <p>When listing an item, sellers must:</p>
-
     <ul>
-        <li>Have the legal right to sell the item.</li>
-        <li>Provide an honest and reasonably accurate description.</li>
-        <li>Use genuine photographs or clearly identify illustrative images.</li>
-        <li>Disclose significant defects, damage, or missing parts.</li>
-        <li>Clearly state the asking price.</li>
-        <li>Not falsely claim that an item is genuine, original, new, or in a particular condition.</li>
-        <li>Comply with applicable laws relating to the sale of the item.</li>
+        <li>Have the legal right to sell it.</li>
+        <li>Describe it honestly and reasonably accurately.</li>
+        <li>Use genuine photographs, or clearly mark illustrative images.</li>
+        <li>Disclose significant defects, damage or missing parts.</li>
+        <li>State the asking price clearly.</li>
+        <li>Never falsely claim that an item is genuine, original, new or in a particular condition.</li>
+        <li>Comply with all laws that apply to the sale of the item.</li>
     </ul>
 
 
-    <h2>5. Prohibited Items and Activities</h2>
+    <h2>5. Prohibited items and activities</h2>
 
     <p>
-        UniBuy may prohibit or remove listings involving goods or
-        activities that are unlawful, unsafe, fraudulent, or inappropriate
-        for the platform.
+        We may prohibit or remove listings that involve goods or
+        activities that are unlawful, unsafe, fraudulent or unsuitable
+        for the platform. You must not use UniBuy to list or facilitate
+        the sale of:
     </p>
-
-    <p>Users must not use UniBuy to list or facilitate transactions involving:</p>
 
     <ul>
         <li>Stolen or unlawfully obtained property.</li>
         <li>Counterfeit or unauthorised goods.</li>
         <li>Illegal drugs or controlled substances.</li>
         <li>Weapons or other prohibited items.</li>
-        <li>Fraudulent documents, identities, or credentials.</li>
+        <li>Fraudulent documents, identities or credentials.</li>
         <li>Goods that the seller is legally prohibited from selling.</li>
         <li>Goods or services intended to facilitate illegal activity.</li>
-        <li>Any other goods or services prohibited by UniBuy or applicable law.</li>
+        <li>Anything else prohibited by UniBuy or by applicable law.</li>
     </ul>
 
     <p>
-        UniBuy reserves the right to remove, restrict, or disable a
-        listing that reasonably appears to violate these Terms or
-        applicable law.
+        We may remove, restrict or disable any listing that reasonably
+        appears to breach these Terms or the law.
     </p>
 
 
-    <h2>6. Buyers</h2>
+    <h2>6. Buying on UniBuy</h2>
 
     <p>
         Buyers are responsible for reviewing listings carefully before
-        agreeing to a transaction.
+        agreeing to a purchase. Before you commit, consider:
     </p>
 
-    <p>Before completing a transaction, buyers should consider:</p>
-
     <ul>
-        <li>The condition of the item.</li>
-        <li>Whether the item matches its description.</li>
+        <li>The condition of the item and whether it matches its description.</li>
         <li>The identity and reliability of the seller.</li>
-        <li>The agreed price.</li>
-        <li>The payment method.</li>
+        <li>The agreed price and payment method.</li>
         <li>The location and method of handover.</li>
     </ul>
 
     <p>
-        Where practical, buyers should inspect an item before making
-        payment or accepting delivery.
+        Where practical, inspect the item before you pay for it or
+        accept delivery.
     </p>
 
 
-    <h2>7. Transactions Between Users</h2>
+    <h2>7. Transactions between users</h2>
 
     <p>
-        Unless expressly stated otherwise, UniBuy does not process or
-        control payments, delivery, collection, ownership transfer,
-        refunds, or handover arrangements between users.
-    </p>
-
-    <p>
-        Buyers and sellers are responsible for agreeing on the relevant
-        transaction terms, including price, payment method, delivery or
-        collection arrangements, and the condition of the item.
+        Unless we expressly state otherwise, UniBuy does not process or
+        control payments, delivery, collection, transfer of ownership,
+        refunds or handover arrangements between users.
     </p>
 
     <p>
-        Users remain responsible for complying with all applicable laws
-        relating to their transactions.
+        Buyers and sellers are responsible for agreeing on the terms of
+        their transaction, including the price, payment method,
+        delivery or collection, and the condition of the item. Each
+        user must comply with all laws that apply to their transaction.
     </p>
 
     <p>
-        Nothing in these Terms is intended to exclude or limit any legal
-        right or protection that cannot lawfully be excluded or limited
-        under South African law.
+        Nothing in these Terms excludes or limits any right or
+        protection that cannot lawfully be excluded or limited under
+        South African law.
     </p>
 
 
-    <h2>8. Safety</h2>
+    <h2>8. Staying safe</h2>
 
     <p>
-        Users arrange transactions with other users at their own
-        discretion and should take reasonable precautions.
+        You arrange transactions with other users at your own
+        discretion, so please take sensible precautions. We recommend
+        that you:
     </p>
-
-    <p>UniBuy recommends that users:</p>
 
     <ul>
-        <li>Meet in safe, public locations.</li>
-        <li>Where possible, meet on campus or in another suitable public area.</li>
+        <li>Meet in safe, public places, ideally on campus or in another suitable public area.</li>
         <li>Avoid meeting strangers alone in isolated locations.</li>
-        <li>Inspect goods before making payment where practical.</li>
+        <li>Inspect goods before paying, where practical.</li>
         <li>Avoid sharing unnecessary personal information.</li>
-        <li>Be cautious of unusual payment requests or advance-payment scams.</li>
-        <li>Report suspicious behaviour, scams, threats, or illegal activity.</li>
+        <li>Be cautious of unusual payment requests and advance-payment scams.</li>
+        <li>Report suspicious behaviour, scams, threats or illegal activity to us.</li>
     </ul>
 
 
     <h2>9. Communication</h2>
 
     <p>
-        UniBuy may provide messaging and communication features to allow
-        users to communicate about listings and transactions.
+        UniBuy may offer features that let users contact one another
+        about listings and transactions. You must not use them to:
     </p>
 
-    <p>Users must not use UniBuy to:</p>
-
     <ul>
-        <li>Harass, threaten, intimidate, or abuse another person.</li>
+        <li>Harass, threaten, intimidate or abuse another person.</li>
         <li>Send fraudulent or deceptive messages.</li>
         <li>Distribute malicious software or harmful content.</li>
         <li>Send unlawful or prohibited material.</li>
-        <li>Spam or repeatedly contact users without a legitimate purpose.</li>
-        <li>Attempt to unlawfully obtain passwords, financial information, or personal information.</li>
+        <li>Spam, or repeatedly contact users without a legitimate purpose.</li>
+        <li>Try to obtain passwords, financial information or personal information unlawfully.</li>
     </ul>
 
 
-    <h2>10. User Content</h2>
+    <h2>10. Your content</h2>
 
     <p>
-        Users retain ownership of content they lawfully upload to UniBuy,
-        including photographs, descriptions, and other listing material.
+        You keep ownership of the content you lawfully upload to
+        UniBuy, including photographs, descriptions and other listing
+        material.
     </p>
 
     <p>
-        By uploading content to UniBuy, you grant UniBuy a non-exclusive,
-        royalty-free licence to host, reproduce, display, format, and
-        distribute that content as reasonably necessary to operate,
-        maintain, promote, and improve the platform.
+        By uploading content, you give UniBuy a non-exclusive,
+        royalty-free licence to host, reproduce, display, format and
+        distribute it as reasonably necessary to operate, maintain,
+        promote and improve the platform.
     </p>
 
     <p>
-        You confirm that you have the necessary rights to upload and use
-        content that you submit to UniBuy.
+        You confirm that you have the necessary rights to upload and
+        use the content you submit.
     </p>
 
 
-    <h2>11. Platform Availability</h2>
+    <h2>11. Availability of the platform</h2>
 
     <p>
-        UniBuy aims to provide a reliable service but does not guarantee
-        that the platform will always be available, uninterrupted,
-        secure, or error-free.
+        We work hard to keep UniBuy reliable, but we cannot guarantee
+        that it will always be available, uninterrupted, secure or
+        free of errors.
     </p>
 
     <p>
-        UniBuy may temporarily suspend, modify, restrict, or discontinue
-        features for maintenance, security, technical reasons, legal
-        compliance, or improvements to the service.
+        We may temporarily suspend, change, restrict or discontinue
+        features for maintenance, security, technical or legal reasons,
+        or to improve the service.
     </p>
 
 
-    <h2>12. Disputes Between Users</h2>
+    <h2>12. Disputes between users</h2>
 
     <p>
         UniBuy is not ordinarily a party to transactions between buyers
-        and sellers.
+        and sellers. If a dispute arises, please first try to resolve
+        it directly and respectfully with the other person.
     </p>
 
     <p>
-        Where a dispute arises, the parties should first attempt to
-        resolve the matter directly and respectfully.
-    </p>
-
-    <p>
-        UniBuy may review reports concerning fraud, prohibited listings,
-        abuse, or violations of these Terms where reasonably appropriate.
-        However, UniBuy is not required to act as an arbitrator or decide
-        which party is legally entitled to money or property unless
-        required by law.
+        Where appropriate, we may review reports of fraud, prohibited
+        listings, abuse or breaches of these Terms. However, UniBuy is
+        not required to act as an arbitrator, or to decide who is
+        legally entitled to money or property, unless the law requires
+        us to.
     </p>
 
 
-    <h2>13. Limitation of Responsibility</h2>
+    <h2>13. Limits of our responsibility</h2>
 
     <p>
-        To the maximum extent permitted by applicable law, UniBuy is not
+        To the maximum extent permitted by law, UniBuy is not
         responsible for:
     </p>
 
     <ul>
-        <li>The quality, safety, legality, authenticity, ownership, or condition of goods listed by users.</li>
+        <li>The quality, safety, legality, authenticity, ownership or condition of items listed by users.</li>
         <li>The accuracy or completeness of information provided by users.</li>
-        <li>The conduct, identity, reliability, or actions of buyers or sellers.</li>
+        <li>The conduct, identity, reliability or actions of buyers and sellers.</li>
         <li>Payment disputes between users.</li>
-        <li>Losses arising from transactions independently arranged between users.</li>
-        <li>Personal injury, theft, fraud, or property loss arising from interactions between users, except where UniBuy is legally responsible.</li>
+        <li>Losses arising from transactions that users arrange independently.</li>
+        <li>Personal injury, theft, fraud or property loss arising from interactions between users, except where UniBuy is legally responsible.</li>
     </ul>
 
     <p>
-        Nothing in these Terms excludes or limits liability where such
-        exclusion or limitation is prohibited by law.
+        Nothing in these Terms excludes or limits liability where the
+        law does not allow it.
     </p>
 
 
-    <h2>14. Indemnity</h2>
+    <h2>14. Responsibility for your own conduct</h2>
 
     <p>
-        To the extent permitted by applicable law, a user may be
-        responsible for losses, claims, liabilities, costs, or expenses
-        reasonably incurred by UniBuy as a result of that user's unlawful
-        conduct, fraud, intentional misconduct, or material breach of
-        these Terms.
+        To the extent permitted by law, you may be responsible for
+        losses, claims, liabilities, costs or expenses that UniBuy
+        reasonably incurs because of your unlawful conduct, fraud,
+        intentional misconduct or material breach of these Terms.
     </p>
 
 
-    <h2>15. Privacy and Personal Information</h2>
+    <h2>15. Privacy and personal information</h2>
 
     <p>
-        UniBuy may collect and process personal information necessary
-        to operate the platform, provide services, communicate with
-        users, maintain security, and comply with legal obligations.
+        UniBuy collects and processes the personal information needed
+        to run the platform, provide our services, communicate with
+        users, keep the platform secure and meet our legal
+        obligations.
     </p>
 
     <p>
-        UniBuy will process personal information in accordance with
-        applicable South African privacy laws, including the
-        <strong>Protection of Personal Information Act 4 of 2013
-        (POPIA)</strong>.
-    </p>
-
-    <p>
-        Please refer to the UniBuy Privacy Policy for more information
-        about how personal information is collected, used, stored,
-        and protected.
+        We process personal information in line with South African
+        privacy law, including the <strong>Protection of Personal
+        Information Act 4 of 2013 (POPIA)</strong>. Please refer to the
+        UniBuy Privacy Policy for details on how personal information
+        is collected, used, stored and protected.
     </p>
 
 
-    <h2>16. Suspension and Termination</h2>
+    <h2>16. Suspension and termination</h2>
 
     <p>
-        UniBuy may suspend, restrict, or terminate access to an account
-        or listing where reasonably necessary, including where a user:
+        We may suspend, restrict or terminate access to an account or
+        listing where reasonably necessary, including where a user:
     </p>
 
     <ul>
@@ -409,68 +381,63 @@
         <li>Creates a risk to other users or the platform.</li>
         <li>Uploads prohibited goods or content.</li>
         <li>Attempts to compromise the security of UniBuy.</li>
-        <li>Uses UniBuy in a manner that may cause harm to UniBuy or its users.</li>
+        <li>Uses UniBuy in a way that may harm UniBuy or its users.</li>
     </ul>
 
 
-    <h2>17. Changes to These Terms</h2>
+    <h2>17. Changes to these Terms</h2>
 
     <p>
-        UniBuy may update these Terms from time to time to reflect
-        changes to the platform, applicable law, security requirements,
-        or business practices.
-    </p>
-
-    <p>
-        Where appropriate, material changes may be communicated to users.
-        Updated Terms will be published on UniBuy together with the
-        applicable effective date.
+        We may update these Terms from time to time to reflect changes
+        to the platform, the law, security requirements or our business
+        practices. Where appropriate, we will tell users about material
+        changes. The updated Terms will be published on UniBuy with the
+        date they take effect.
     </p>
 
 
-    <h2>18. Governing Law</h2>
+    <h2>18. Governing law</h2>
 
     <p>
         These Terms are governed by the laws of the
         <strong>Republic of South Africa</strong>, subject to any
-        mandatory rights, protections, or remedies available to users
+        mandatory rights, protections or remedies available to you
         under applicable law.
     </p>
 
     <p>
-        Any dispute concerning these Terms will be subject to the
-        jurisdiction of the competent courts of South Africa, subject
-        to applicable law.
+        Any dispute about these Terms falls under the jurisdiction of
+        the competent courts of South Africa, subject to applicable
+        law.
     </p>
 
 
     <h2>19. Severability</h2>
 
     <p>
-        If any provision of these Terms is found to be unlawful, invalid,
-        or unenforceable, that provision will be interpreted or limited
-        to the extent necessary, and the remaining provisions will
-        continue to apply to the extent permitted by law.
+        If any part of these Terms is found to be unlawful, invalid or
+        unenforceable, it will be limited or interpreted to the extent
+        necessary, and the remaining provisions will continue to apply
+        to the extent the law permits.
     </p>
 
 
-    <h2>20. Entire Agreement</h2>
+    <h2>20. Entire agreement</h2>
 
     <p>
         These Terms, together with the UniBuy Privacy Policy and any
-        other policies expressly incorporated into them, govern your
-        use of UniBuy, subject to any mandatory rights and obligations
-        imposed by applicable law.
+        other policies expressly incorporated into them, form the whole
+        agreement governing your use of UniBuy, subject to any
+        mandatory rights and obligations under applicable law.
     </p>
 
 
-    <h2>21. Contact Us</h2>
+    <h2>21. Contact us</h2>
 
     <p>
-        If you have questions, concerns, or complaints regarding these
-        Terms, a listing, another user, or the operation of UniBuy,
-        please contact us through the
-        <a href="contact.html">Contact Us</a> page.
+        If you have a question, concern or complaint about these Terms,
+        a listing, another user or the way UniBuy operates, please reach
+        us through the <a href="contact.html">Contact Us</a> page.
     </p>
 
     <div style="
@@ -484,9 +451,9 @@
         line-height:1.6;
     ">
         <strong>UniBuy</strong><br>
-        By using UniBuy, you acknowledge that you have read and
-        understood these Terms &amp; Conditions and agree to comply
-        with them, subject to your rights under applicable law.
+        By using UniBuy, you confirm that you have read and understood
+        these Terms &amp; Conditions and agree to comply with them,
+        subject to your rights under applicable law.
     </div>
 
 </div>
