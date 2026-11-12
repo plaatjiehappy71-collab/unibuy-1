@@ -1,0 +1,334 @@
+/* =========================================================
+   UniBuy - Premium Settings page
+   Load AFTER app.css and sidebar.css
+   Colours: black #0a0a0a, green #0a6b2f, soft background #f3f5f3
+   ========================================================= */
+
+body {
+    background: #f3f5f3;
+}
+
+.settings-page {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 20px 16px 48px;
+}
+
+/* ---------- Cards ---------- */
+
+.settings-page .settings-section {
+    background: #fff;
+    border-radius: 22px;
+    padding: 22px 20px;
+    margin: 0 0 18px;
+    box-shadow:
+        0 1px 2px rgba(10, 20, 10, .05),
+        0 10px 30px rgba(10, 20, 10, .06);
+}
+
+.settings-page .settings-section h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 18px;
+    font-size: 1.08rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: none;
+    color: #0a0a0a;
+}
+
+.settings-page .settings-section h3::before {
+    content: "";
+    width: 4px;
+    height: 18px;
+    border-radius: 2px;
+    background: #0a6b2f;
+}
+
+/* ---------- Profile ---------- */
+
+.settings-page .profile-setting {
+    display: grid;
+    gap: 24px;
+}
+
+@media (min-width: 560px) {
+    .settings-page .profile-setting {
+        grid-template-columns: 190px 1fr;
+        align-items: start;
+    }
+}
+
+.settings-page .profile-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+.settings-page .settings-profile-picture {
+    position: relative;
+    display: block;
+    width: 128px;
+    height: 128px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 0 4px #fff, 0 0 0 7px #0a6b2f;
+}
+
+.settings-page .settings-profile-picture img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.settings-page .profile-camera {
+    position: absolute;
+    right: 0;
+    bottom: 2px;
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #0a0a0a;
+    color: #fff;
+    font-size: .9rem;
+    border: 3px solid #fff;
+}
+
+.settings-page #profileName {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #0a0a0a;
+    text-align: center;
+    word-break: break-word;
+}
+
+/* ---------- Bio ---------- */
+
+.settings-page .profile-bio label,
+.settings-page .contact-card-content label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: .9rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: none;
+    color: #222;
+}
+
+.settings-page textarea,
+.settings-page .contact-card-content input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px 14px;
+    border: 1.5px solid #e2e7e2;
+    border-radius: 14px;
+    background: #fafbfa;
+    font: inherit;
+    font-size: 1rem;
+    color: #111;
+    transition: border-color .2s, box-shadow .2s, background .2s;
+}
+
+.settings-page textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.settings-page textarea:focus,
+.settings-page .contact-card-content input:focus {
+    outline: none;
+    border-color: #0a6b2f;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(10, 107, 47, .12);
+}
+
+.settings-page .bio-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 8px 0 14px;
+    font-size: .8rem;
+    color: #7a817a;
+}
+
+/* ---------- Buttons ---------- */
+
+.settings-page .save-profile-btn,
+.settings-page .save-whatsapp-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 14px;
+    border: 0;
+    border-radius: 14px;
+    background: #0a6b2f;
+    color: #fff;
+    font: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform .15s, background .2s;
+}
+
+.settings-page .save-profile-btn:active,
+.settings-page .save-whatsapp-btn:active {
+    transform: scale(.98);
+    background: #085526;
+}
+
+.settings-page .bio-status,
+.settings-page .whatsapp-status {
+    margin: 10px 0 0;
+    font-size: .85rem;
+    font-weight: 500;
+}
+
+.settings-page .bio-status:empty,
+.settings-page .whatsapp-status:empty {
+    display: none;
+}
+
+/* ---------- Contact cards ---------- */
+
+.settings-page .contact-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px;
+    margin: 0 0 14px;
+    border: 1px solid #edf0ed;
+    border-radius: 18px;
+    background: #f7f9f7;
+}
+
+.settings-page .contact-card-icon {
+    flex: 0 0 46px;
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    font-size: 1.3rem;
+}
+
+.settings-page .contact-card-icon.whatsapp {
+    background: rgba(37, 211, 102, .15);
+    color: #128c4a;
+}
+
+.settings-page .contact-card-icon.email {
+    background: rgba(10, 10, 10, .07);
+    color: #0a0a0a;
+}
+
+.settings-page .contact-card-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.settings-page .contact-card-content small {
+    display: block;
+    margin-top: 8px;
+    font-size: .78rem;
+    line-height: 1.45;
+    color: #7a817a;
+}
+
+.settings-page #profileEmail {
+    margin: 0;
+    color: #333;
+    word-break: break-all;
+}
+
+.settings-page .whatsapp-status + .contact-card {
+    margin-top: 14px;
+}
+
+.settings-page .save-whatsapp-btn {
+    margin-bottom: 0;
+}
+
+/* ---------- Link rows ---------- */
+
+.settings-page .settings-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1px solid #edf0ed;
+    border-radius: 16px;
+    background: #f7f9f7;
+    color: #111;
+    text-decoration: none;
+    transition: background .2s, transform .15s;
+}
+
+.settings-page .settings-link:hover {
+    background: rgba(10, 107, 47, .08);
+}
+
+.settings-page .settings-link:active {
+    transform: scale(.99);
+}
+
+.settings-page .settings-link > div {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.settings-page .settings-link > div > i {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: rgba(10, 107, 47, .1);
+    color: #0a6b2f;
+    font-size: .95rem;
+}
+
+.settings-page .settings-link span {
+    font-weight: 500;
+}
+
+.settings-page .settings-link > i {
+    color: #a3aaa3;
+    font-size: .8rem;
+}
+
+/* ---------- Logout ---------- */
+
+.settings-page .logout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 15px;
+    margin: 6px 0 0;
+    border: 1.5px solid #efcaca;
+    border-radius: 16px;
+    background: #fff;
+    color: #c0392b;
+    font: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s, transform .15s;
+}
+
+.settings-page .logout-btn:active {
+    background: #fdf1f1;
+    transform: scale(.99);
+}
