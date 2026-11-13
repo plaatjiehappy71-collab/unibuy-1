@@ -56,6 +56,28 @@
         .about-section p { margin-bottom: 10px; }
         .about-section ul { margin: 0 0 10px 20px; }
         .about-section li { margin-bottom: 6px; }
+        .info-tabs { display: flex; gap: 8px; border-bottom: 1px solid #e3e3e3; padding-bottom: 10px; }
+        .info-tab {
+            flex: 1;
+            background: none;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 4px;
+            font: inherit;
+            font-weight: 700;
+            font-size: 0.95rem;
+            line-height: 1.2;
+            color: #222;
+            cursor: pointer;
+            text-align: center;
+        }
+        .info-tab[aria-selected="true"] { background: #006400; color: #fff; }
+        .info-panel { padding-top: 12px; }
+        .about-section a { color: #006400; font-weight: 600; text-decoration: none; word-break: break-word; }
+        .about-section .updated { font-size: 0.9rem; color: #666; }
+        .about-section .contact-list { list-style: none; margin: 8px 0 10px 0; padding: 0; }
+        .about-section .contact-list li { margin-bottom: 10px; }
+        .about-section .contact-list i { width: 24px; color: #006400; }
 
         /* ===== PREMIUM SIDEBAR ===== */
         .sidebar {
@@ -327,8 +349,13 @@
 
     <!-- ABOUT US (plain HTML so search engines and AI tools can read it) -->
     <section class="about-section" id="about">
-        <details>
-            <summary>About us</summary>
+        <div class="info-tabs" role="tablist">
+            <button class="info-tab" role="tab" aria-selected="false" data-target="panel-about">About us</button>
+            <button class="info-tab" role="tab" aria-selected="false" data-target="panel-privacy">Privacy &amp; Data</button>
+            <button class="info-tab" role="tab" aria-selected="false" data-target="panel-contact">Contact us</button>
+        </div>
+
+        <div class="info-panel" id="panel-about" role="tabpanel" hidden>
 
             <p><strong>Connecting businesses, empowering entrepreneurs and making shopping easier.</strong></p>
             <p>UniBuy is a South African digital marketplace created to connect buyers, individual sellers, entrepreneurs and small businesses through one accessible online platform.</p>
@@ -385,7 +412,115 @@
             <p>Our ambition goes beyond creating another online marketplace. We want to build a platform that gives businesses visibility, encourages entrepreneurship and creates opportunities for people who want to grow.</p>
             <p>We are only getting started.</p>
             <p><strong>UniBuy: Shop. Scroll. Enjoy.</strong></p>
-        </details>
+        </div>
+
+        <div class="info-panel" id="panel-privacy" role="tabpanel" hidden>
+
+            <p class="updated"><em>Last Updated: 14 November 2026</em></p>
+
+            <h3>1. Introduction</h3>
+            <p>UniBuy respects the privacy of its users and is committed to protecting their personal information. This Privacy Policy explains how UniBuy collects, uses, stores, and protects information when users access or interact with our website.</p>
+            <p>We believe that users deserve a safe, transparent, and trustworthy online experience.</p>
+
+            <h3>2. Information We Collect</h3>
+            <p>UniBuy may collect the following information:</p>
+            <ul>
+                <li><strong>Personal Information:</strong> Full name, email address, telephone number, and other information voluntarily provided during registration.</li>
+                <li><strong>Account Information:</strong> Profile details, account settings, and information associated with your UniBuy account.</li>
+                <li><strong>Product Information:</strong> Products posted, descriptions, prices, images, and other listing information.</li>
+                <li><strong>Communication Information:</strong> Information shared when users contact sellers or interact with UniBuy.</li>
+                <li><strong>Technical Information:</strong> Browser type, device information, website usage, and technical data necessary to maintain and improve the website.</li>
+            </ul>
+
+            <h3>3. How We Use Your Information</h3>
+            <p>UniBuy uses collected information to:</p>
+            <ul>
+                <li>Create and manage user accounts.</li>
+                <li>Display product listings and seller information.</li>
+                <li>Connect buyers with sellers.</li>
+                <li>Improve website functionality and user experience.</li>
+                <li>Maintain website security and prevent fraudulent activities.</li>
+                <li>Respond to enquiries and provide user support.</li>
+                <li>Promote products and listings through UniBuy marketing platforms where applicable.</li>
+            </ul>
+
+            <h3>4. User Data Protection</h3>
+            <p>UniBuy takes reasonable technical and organisational measures to protect users' personal information against unauthorised access, misuse, loss, alteration, or disclosure.</p>
+            <p>Access to personal information is restricted where reasonably necessary for website administration, security, and service delivery.</p>
+            <p>However, no online platform can guarantee absolute security, and users are encouraged to protect their account credentials and personal information.</p>
+
+            <h3>5. Sharing of Information</h3>
+            <p>UniBuy does not sell users' personal information as a business practice.</p>
+            <p>Information may be shared where necessary:</p>
+            <ul>
+                <li>To display publicly submitted product listings and seller details.</li>
+                <li>To facilitate communication between buyers and sellers.</li>
+                <li>With trusted service providers that support website operations.</li>
+                <li>Where required by law or necessary to protect the rights, security, and integrity of UniBuy and its users.</li>
+            </ul>
+            <p>Users should understand that information voluntarily displayed in public listings may be viewed, copied, or shared by other internet users.</p>
+
+            <h3>6. Cookies and Website Technologies</h3>
+            <p>UniBuy may use cookies, analytics, and similar technologies to improve website performance, understand visitor activity, and enhance user experience.</p>
+            <p>Users may manage cookies through their browser settings where supported.</p>
+
+            <h3>7. User Rights</h3>
+            <p>Users have the right to:</p>
+            <ul>
+                <li>Request access to their personal information.</li>
+                <li>Request correction of inaccurate information.</li>
+                <li>Request deletion of personal information, subject to applicable legal requirements.</li>
+                <li>Withdraw consent where processing is based on consent.</li>
+                <li>Raise concerns about how their personal information is handled.</li>
+            </ul>
+            <p>UniBuy will handle such requests in accordance with applicable privacy laws.</p>
+
+            <h3>8. Third-Party Services</h3>
+            <p>UniBuy may rely on third-party services, including hosting providers, authentication services, databases, and analytics tools.</p>
+            <p>These services may process information necessary for their functionality and are subject to their respective privacy policies.</p>
+            <p>UniBuy is not responsible for the independent privacy practices of third-party websites or services.</p>
+
+            <h3>9. Children's Privacy</h3>
+            <p>UniBuy is not intended to knowingly collect personal information from children in violation of applicable laws. Where necessary, appropriate measures will be taken to address such information.</p>
+
+            <h3>10. Changes to This Privacy Policy</h3>
+            <p>UniBuy reserves the right to update this Privacy Policy when necessary to reflect changes in our services, technology, or legal requirements.</p>
+            <p>Updates will be published on this page with a revised date.</p>
+
+            <h3>11. Contact Us</h3>
+            <p>For privacy-related questions, requests, or concerns, users may contact UniBuy through the official website: <a href="https://unibuy.co.za">https://unibuy.co.za</a></p>
+
+            <p><strong>UniBuy: Shop. Scroll. Enjoy.</strong><br>Your privacy matters. Your trust matters. Your data deserves protection.</p>
+        </div>
+
+        <div class="info-panel" id="panel-contact" role="tabpanel" hidden>
+
+            <ul class="contact-list">
+                <li><i class="fas fa-envelope"></i> <a href="mailto:Infounibuyza@gmail.com">Infounibuyza@gmail.com</a></li>
+                <li><i class="fas fa-phone"></i> <a href="tel:+27738165432">073 816 5432</a></li>
+                <li><i class="fab fa-facebook"></i> <a href="https://www.facebook.com/profile.php?id=61593334028335" target="_blank" rel="noopener">Facebook</a></li>
+                <li><i class="fab fa-tiktok"></i> <a href="https://www.tiktok.com/@infounibuy" target="_blank" rel="noopener">TikTok</a></li>
+            </ul>
+        </div>
+
+        <script>
+        (function () {
+            var tabs = document.querySelectorAll('.info-tab');
+            var panels = document.querySelectorAll('.info-panel');
+            tabs.forEach(function (tab) {
+                tab.addEventListener('click', function () {
+                    var target = tab.getAttribute('data-target');
+                    var wasOpen = tab.getAttribute('aria-selected') === 'true';
+                    tabs.forEach(function (t) { t.setAttribute('aria-selected', 'false'); });
+                    panels.forEach(function (p) { p.hidden = true; });
+                    if (!wasOpen) {
+                        tab.setAttribute('aria-selected', 'true');
+                        document.getElementById(target).hidden = false;
+                    }
+                });
+            });
+        })();
+        </script>
     </section>
 
     <!-- BOTTOM PROMOTION -->
