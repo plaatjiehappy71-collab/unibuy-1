@@ -8,7 +8,6 @@ let originalProducts = [];
 let feed = [];  
 let currentIndex = 0;  
 let photoIndex = {};  
-let likedIds = new Set();  
 let notInterestedCategories = new Set();  
 
 const RENDER_RADIUS = 1;  
@@ -53,7 +52,6 @@ function open(index, products) {
     );  
 
     photoIndex = {};  
-    likedIds = new Set();  
     notInterestedCategories = new Set();  
 
     viewer.classList.remove("hidden");  
@@ -382,15 +380,6 @@ function buildSlide(product, pos) {
     actions.innerHTML =  
 
         actionButton(  
-            "like",  
-            "fa-heart",  
-            String(product.likes || 0),  
-            likedIds.has(product.id)  
-                ? "liked"  
-                : ""  
-        ) +  
-
-        actionButton(  
             "save",  
             "fa-bookmark",  
             "Save",  
@@ -528,42 +517,6 @@ function handleAction(
     btn,  
     toastEl  
 ) {  
-
-
-    /* =========================  
-       LIKE  
-    ========================= */  
-
-    if (action === "like") {  
-
-        if (  
-            likedIds.has(  
-                product.id  
-            )  
-        ) {  
-
-            likedIds.delete(  
-                product.id  
-            );  
-
-            btn.classList.remove(  
-                "liked"  
-            );  
-
-        } else {  
-
-            likedIds.add(  
-                product.id  
-            );  
-
-            btn.classList.add(  
-                "liked"  
-            );  
-
-        }  
-
-        return;  
-    }  
 
 
     /* =========================  
