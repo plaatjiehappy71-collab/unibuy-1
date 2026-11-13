@@ -1,9 +1,23 @@
+/* =========================================================
+   UniBuy swipe viewer — premium theme
+   Same class names as before, so swipe.js needs no changes
+   for styling. (Heart removal is done in swipe.js.)
+   ========================================================= */
+
+:root {
+    --ub-gold: #E9C46A;
+    --ub-gold-soft: #F4E3B1;
+    --ub-green: #0B7A3B;
+    --ub-green-deep: #065A2B;
+    --ub-glass: rgba(18, 18, 22, 0.58);
+    --ub-glass-border: rgba(255, 255, 255, 0.10);
+}
 
 .swipe-viewer {
     position: fixed;
     inset: 0;
     z-index: 2000;
-    background: #000;
+    background: #050506;
     overflow: hidden;
 }
 
@@ -18,19 +32,25 @@
     z-index: 2100;
     width: 42px;
     height: 42px;
-    border: none;
+    border: 1px solid var(--ub-glass-border);
     border-radius: 50%;
-    background: rgba(0, 0, 0, 0.45);
+    background: var(--ub-glass);
     color: #fff;
-    font-size: 18px;
+    font-size: 17px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    transition: transform .15s ease;
 }
 
-/* Vertical track: one full-screen slide per product, translated on the Y axis */
+.swipe-close:active {
+    transform: scale(0.92);
+}
+
+/* Vertical track */
 .swipe-track {
     position: absolute;
     inset: 0;
@@ -48,6 +68,7 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
+    background: radial-gradient(ellipse at 50% 40%, #1c1d22 0%, #0b0b0e 70%, #050506 100%);
 }
 
 .swipe-photos {
@@ -68,13 +89,14 @@
     height: 100%;
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: center;
-    background-color: #111;
+    background-position: center 38%;
+    background-color: transparent;
 }
 
+/* Photo dots */
 .swipe-dots {
     position: absolute;
-    top: 18px;
+    top: 28px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -86,56 +108,76 @@
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.35);
     transition: background .2s ease, width .2s ease;
 }
 
 .swipe-dots span.active {
-    background: #fff;
-    width: 18px;
+    background: var(--ub-gold);
+    width: 20px;
     border-radius: 4px;
 }
 
+/* Bottom fade so the glass card sits on a calm background */
 .swipe-slide::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,.75) 0%, rgba(0,0,0,.15) 35%, rgba(0,0,0,0) 55%);
+    background: linear-gradient(to top,
+        rgba(0,0,0,.88) 0%,
+        rgba(0,0,0,.45) 30%,
+        rgba(0,0,0,0) 58%);
     pointer-events: none;
 }
 
+/* ---------- Info card (glass) ---------- */
 .swipe-info {
     position: absolute;
-    left: 0;
-    right: 84px;
-    bottom: 0;
-    padding: 20px 20px 30px;
+    left: 12px;
+    right: 86px;
+    bottom: 16px;
+    padding: 18px 18px 16px;
     color: #fff;
     z-index: 5;
+    background: var(--ub-glass);
+    border: 1px solid var(--ub-glass-border);
+    border-radius: 22px;
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    box-shadow: 0 10px 30px rgba(0,0,0,.45);
 }
 
 .swipe-premium-badge {
     display: inline-block;
-    background: #FFD700;
-    color: #222;
-    font-size: 11px;
-    font-weight: 700;
-    padding: 4px 10px;
+    background: linear-gradient(135deg, #F7DC8A, #D4A63A);
+    color: #2a2008;
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: .8px;
+    text-transform: uppercase;
+    padding: 4px 11px;
     border-radius: 20px;
     margin-bottom: 10px;
+    box-shadow: 0 2px 8px rgba(212,166,58,.35);
 }
 
 .swipe-name {
-    font-size: 22px;
+    font-size: 21px;
     font-weight: 700;
+    letter-spacing: .2px;
     margin-bottom: 4px;
 }
 
 .swipe-price {
-    font-size: 26px;
-    font-weight: 700;
-    color: #7CFC7C;
+    font-size: 27px;
+    font-weight: 800;
+    letter-spacing: .3px;
     margin-bottom: 8px;
+    background: linear-gradient(90deg, var(--ub-gold-soft), var(--ub-gold));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
 }
 
 .swipe-meta {
@@ -143,7 +185,7 @@
     flex-wrap: wrap;
     gap: 14px;
     font-size: 13px;
-    color: rgba(255,255,255,.85);
+    color: rgba(255,255,255,.80);
     margin-bottom: 10px;
 }
 
@@ -156,7 +198,7 @@
 .swipe-description {
     font-size: 14px;
     line-height: 1.5;
-    color: rgba(255,255,255,.9);
+    color: rgba(255,255,255,.88);
     max-height: 4.5em;
     overflow: hidden;
     margin-bottom: 14px;
@@ -170,51 +212,66 @@
 .swipe-buy-btn,
 .swipe-chat-btn {
     flex: 1;
-    height: 46px;
+    height: 48px;
     border: none;
-    border-radius: 12px;
+    border-radius: 14px;
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 700;
+    letter-spacing: .2px;
     cursor: pointer;
+    transition: transform .15s ease, box-shadow .2s ease;
+}
+
+.swipe-buy-btn:active,
+.swipe-chat-btn:active {
+    transform: scale(0.97);
 }
 
 .swipe-buy-btn {
-    background: #006400;
-    color: #fff;
+    background: linear-gradient(135deg, #F7DC8A, #D4A63A);
+    color: #2a2008;
+    box-shadow: 0 6px 16px rgba(212,166,58,.30);
 }
 
 .swipe-chat-btn {
-    background: rgba(255,255,255,.15);
+    background: linear-gradient(135deg, var(--ub-green), var(--ub-green-deep));
     color: #fff;
-    border: 1px solid rgba(255,255,255,.4);
-    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255,255,255,.14);
+    box-shadow: 0 6px 16px rgba(11,122,59,.35);
 }
 
+/* ---------- Side actions (glass pill) ---------- */
 .swipe-actions {
     position: absolute;
-    right: 14px;
-    bottom: 130px;
+    right: 12px;
+    bottom: 28px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 18px;
+    gap: 14px;
     z-index: 5;
+    padding: 12px 6px;
+    background: var(--ub-glass);
+    border: 1px solid var(--ub-glass-border);
+    border-radius: 32px;
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    box-shadow: 0 10px 30px rgba(0,0,0,.45);
 }
 
 .swipe-action-btn {
-    width: 52px;
-    height: 52px;
-    border: none;
+    width: 46px;
+    height: 46px;
+    border: 1px solid rgba(255,255,255,.12);
     border-radius: 50%;
-    background: rgba(0,0,0,.4);
+    background: rgba(255,255,255,.08);
     color: #fff;
-    font-size: 20px;
+    font-size: 19px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    backdrop-filter: blur(4px);
-    transition: transform .15s ease, background .2s ease;
+    transition: transform .15s ease, background .2s ease, color .2s ease;
 }
 
 .swipe-action-btn span {
@@ -229,7 +286,9 @@
 }
 
 .swipe-action-btn.saved {
-    background: #006400;
+    background: linear-gradient(135deg, #F7DC8A, #D4A63A);
+    color: #2a2008;
+    border-color: transparent;
 }
 
 .swipe-action-btn:active {
@@ -240,10 +299,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: #fff;
-    font-size: 11px;
+    color: rgba(255,255,255,.9);
+    font-size: 10.5px;
     font-weight: 600;
-    gap: 4px;
+    letter-spacing: .2px;
+    gap: 5px;
     text-shadow: 0 1px 3px rgba(0,0,0,.6);
 }
 
@@ -259,13 +319,16 @@
 
 .swipe-toast {
     position: absolute;
-    top: 70px;
+    top: 76px;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(0,0,0,.6);
+    background: var(--ub-glass);
+    border: 1px solid var(--ub-glass-border);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     color: #fff;
     font-size: 13px;
-    padding: 8px 16px;
+    padding: 9px 18px;
     border-radius: 20px;
     z-index: 10;
     opacity: 0;
@@ -303,7 +366,7 @@
 }
 
 .unibuy-verified {
-    color: #1D9BF0;
+    color: #3AA7FF;
     font-size: 15px;
     margin-left: 2px;
 }
